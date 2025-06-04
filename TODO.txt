@@ -1,0 +1,7 @@
+Funktions:
+
+changePresets
+getPresets
+searchProdukt
+addTransaction
+moveItem
