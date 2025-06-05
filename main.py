@@ -77,22 +77,23 @@ def add_transaktion():
     import datetime
     data = request.json
 
-    input_objekt = data.get('objekt_name')  # kann Name (str) oder ID (int) sein
+    input_objekt = data.get('objekt_name')
     anzahl = data.get('anzahl')
     preis_pro_stueck = data.get('preis_pro_stueck')
-    datum = data.get('datum')
+    datum = data.get('datum') or datetime.date.today().isoformat()
     beschreibung = data.get('beschreibung', '')
     seller1_id = data.get('seller1_id')
     seller2_id = data.get('seller2_id')
 
-    if input_objekt is None or anzahl is None or not isinstance(anzahl, int):
+    if not input_objekt or not isinstance(anzahl, int):
         return jsonify({'error': 'Ungültige Eingabedaten'}), 400
 
     try:
         with sqlite3.connect("./db/schüler-firma.db") as conn:
             cursor = conn.cursor()
 
-            # Objekt-ID ermitteln (egal ob Name oder ID übergeben wurde)
+            # Objekt-ID und Preis ermitteln
+            objekt_id, db_preis = None, None
             if isinstance(input_objekt, int) or (isinstance(input_objekt, str) and input_objekt.isdigit()):
                 objekt_id = int(input_objekt)
                 cursor.execute("SELECT price FROM inventar WHERE id = ?", (objekt_id,))
@@ -104,35 +105,28 @@ def add_transaktion():
                 cursor.execute("SELECT id, price FROM inventar WHERE name = ?", (input_objekt,))
                 row = cursor.fetchone()
                 if not row:
-                    return jsonify({'error': f'Kein Inventar-Eintrag mit Name "{input_objekt}" gefunden'}), 400
-                objekt_id = row[0]
-                db_preis = row[1]
+                    return jsonify({'error': f'Kein Inventar-Eintrag mit Name \"{input_objekt}\" gefunden'}), 400
+                objekt_id, db_preis = row
 
-            # Falls Preis nicht gesetzt oder 0: Preis aus DB verwenden
-            if preis_pro_stueck in (None, '', 0):
+            # Preis ggf. aus DB übernehmen
+            if not preis_pro_stueck:
                 preis_pro_stueck = db_preis
 
-            # Datum auf heute setzen, falls leer
-            if not datum:
-                datum = datetime.date.today().isoformat()
+            # Verkäufer prüfen (None zulassen)
+            def check_seller(seller_id, label):
+                if seller_id is not None:
+                    cursor.execute("SELECT 1 FROM verkaeufer WHERE id = ?", (seller_id,))
+                    if not cursor.fetchone():
+                        raise ValueError(f'{label} mit ID {seller_id} nicht gefunden')
+                return seller_id
 
-            # Seller1 prüfen
-            if seller1_id is not None:
-                cursor.execute("SELECT 1 FROM verkaeufer WHERE id = ?", (seller1_id,))
-                if not cursor.fetchone():
-                    return jsonify({'error': f'Seller1 mit ID {seller1_id} nicht gefunden'}), 400
-            else:
-                seller1_id = None
+            try:
+                seller1_id = check_seller(seller1_id, "Seller1")
+                seller2_id = check_seller(seller2_id, "Seller2")
+            except ValueError as ve:
+                return jsonify({'error': str(ve)}), 400
 
-            # Seller2 prüfen
-            if seller2_id is not None:
-                cursor.execute("SELECT 1 FROM verkaeufer WHERE id = ?", (seller2_id,))
-                if not cursor.fetchone():
-                    return jsonify({'error': f'Seller2 mit ID {seller2_id} nicht gefunden'}), 400
-            else:
-                seller2_id = None
-
-            # In DB schreiben (jetzt mit objekt_id, NICHT objektname)
+            # Eintrag speichern
             cursor.execute("""
                 INSERT INTO verkaeufe (objekt_id, anzahl, preisPerPiece, date, description, seller1_id, seller2_id)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -143,6 +137,28 @@ def add_transaktion():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.route("/api/SearchItem", methods=["GET"])
+def get_item():
+     with sqlite3.connect("./db/schüler-firma.db") as conn:
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        item_id = request.args.get("id")
+        name = request.args.get("name")
+
+        if item_id:
+            cursor.execute("SELECT * FROM inventar WHERE id = ?", (item_id,))
+        elif name:
+            cursor.execute("SELECT * FROM inventar WHERE name = ?", (name,))
+        else:
+            return jsonify({"error": "Bitte 'id' oder 'name' angeben."}), 400
+
+        item = cursor.fetchone()
+
+        if item:
+            return jsonify(dict(item))
+        return jsonify({"error": "Item nicht gefunden"}), 404
 
 
 if __name__ == '__main__':

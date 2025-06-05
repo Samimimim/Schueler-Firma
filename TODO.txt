@@ -1,7 +1,7 @@
 Funktions:
 
-changePresets
-getPresets
-searchProdukt
-addTransaction
+#changePresets
+#getPresets
+#searchProdukt
+#addTransaction
 moveItem
