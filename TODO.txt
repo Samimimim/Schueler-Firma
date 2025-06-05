@@ -5,3 +5,7 @@ Funktions:
 #searchProdukt
 #addTransaction
 moveItem
+
+
+Features:
+Storage one and two
