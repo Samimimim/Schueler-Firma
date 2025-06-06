@@ -1,4 +1,4 @@
-Funktions:
+Funktionen:
 
 #changePresets
 #getPresets
@@ -7,5 +7,26 @@ Funktions:
 moveItem
 
 
-Features:
-Storage one and two
+Funktionen:
+Mehrere Lager
+Automatisches Subtrahieren, bei Verkaufen
+Automatische Email bei knappen bestand versenden.
+Produkte verschieben
+
+Sicherheit:
+Auf https wechseln
+Homepage für normale Benützer, mit extra Funktionen für angemeldete Benützer
+Einen anderen Server statt Flask verwenden
+SQL injektionen verhindern
+Die APIs auf Sicherheits lücken checken 
+KEINE DATEN HARDCODEN!!!!!!!!!!!!
+
+Grafik:
+Komplettes Disign überarbeiten
+Fürs Tablett optimieren
+Eigenes Logo disignen
+
+Struktur:
+Alle db komunitionen über db.py regen
+Alle Emails über email.py versenden.
+Ruten zu den HTML Datei ggf. verbessern. z.b.:/assets/impressum.html ---> /impressum

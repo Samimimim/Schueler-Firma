@@ -1,43 +1,37 @@
-# Schueler-Firma
-1.
-Please make sure to create a virtual PYthon enviorment with:
+# Projektstart
+
+## 1. Virtuelle Umgebung erstellen
+
+```powershell
 python -m venv venv
+```
 
-2.
-Then Open the enviorment with:
+## 2. Umgebung aktivieren (Windows PowerShell)
+
+```powershell
 .\venv\Scripts\Activate.ps1
+```
 
-3.
-!!If error, do this
+### ❗ Bei Fehler:
+
+```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
 
-Then go to step 2
+Dann erneut aktivieren:
 
-4.
-Install al the libarys:
-pip install -r requirments.txt
+```powershell
+.\venv\Scripts\Activate.ps1
+```
 
-5.
-Then start the app with
+## 3. Abhängigkeiten installieren
+
+```powershell
+pip install -r requirements.txt
+```
+
+## 4. Anwendung starten
+
+```powershell
 python main.py
-
-#--------------------------------------------------------------------------
-
-         ______________________                                _________________________________________
-
-
-                                              |
-                                              |
-                                              |
-                                              |
-                                              |
-                                              |
-                                              |
-                                              |
-                                              |
-
-                   |                                                                       |
-                   |                                                                       |
-                   +-----------------------------------------------------------------------+
-
-Worl best smily :-)
+```
