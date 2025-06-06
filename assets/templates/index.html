@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schüler-Firma</title>
+    <link rel="stylesheet" href="/assets/sytle/style.css">
+    <link rel="icon" href="/assets/img/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/assets/img/favicon.png" />
+    <script>
+        function switch_to_admin() {
+            let pass = prompt("Bitte gib das Admin Passwort ein", "**********");
+            window.location.replace("/login?auth="+ pass);
+        }
+    </script>
+
+</head>
+<body>
+    <h1>Schüler-Firma</h1>
+    <div>
+        Wilkommen auf unserer Homepage
+    </div>
+    <br>
+    <button onclick="switch_to_admin()">Admin werden</button>
+</body>
+</html>

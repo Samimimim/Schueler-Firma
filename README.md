@@ -1,3 +1,6 @@
+#
+
+
 # Projektstart
 
 ## 1. Virtuelle Umgebung erstellen
@@ -35,3 +38,9 @@ pip install -r requirements.txt
 ```powershell
 python main.py
 ```
+## 5. .env Datei erstellen
+Erstelle eine .env Datei mit:
+EMAIL_USER (Optional)
+EMAIL_PASS (OPtional)
+SECRET_KEY (Sicherer Schlüssel)
+ADMIN_PASS (Passwort für das Admin Panal)
