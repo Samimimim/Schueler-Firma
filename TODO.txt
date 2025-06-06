@@ -30,3 +30,6 @@ Struktur:
 Alle db komunitionen über db.py regen
 Alle Emails über email.py versenden.
 Ruten zu den HTML Datei ggf. verbessern. z.b.:/assets/impressum.html ---> /impressum
+
+Zuverlässigkeit:
+Alles db befehle in eine Queue schreiben die abgearbeitet wird
