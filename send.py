@@ -1,28 +1,33 @@
 import smtplib
 from email.message import EmailMessage
-
-# E-Mail-Daten
-absender = "_________@icloud.com"
-empfänger = "samael.schlecht@messelbergschule.de"
-betreff = "lol"
-inhalt = """
-lol
-"""
-
-# Nachricht erstellen
-msg = EmailMessage()
-msg["From"] = absender
-msg["To"] = empfänger
-msg["Subject"] = betreff
-msg.set_content(inhalt)
-
-# Verbindung zu iCloud SMTP
-with smtplib.SMTP("smtp.mail.me.com", 587) as server:
-    server.ehlo()
-    server.starttls()
-    server.ehlo()
-    server.login(absender, "ts______")
-    server.send_message(msg)
+from dotenv import load_dotenv
+import os
+import json
 
 
-print("E-Mail gesendet!")
+#Private Daten holen
+load_dotenv()
+email_user = os.getenv("EMAIL_USER")
+email_pass = os.getenv("EMAIL_PASS")
+
+
+def warn(produkt):
+    with open('./data/email_recivers.json', 'r') as file:
+        recivers = json.load(file)
+
+    with smtplib.SMTP("smtp.mail.me.com", 587) as server:
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
+        server.login(email_user, email_pass)
+
+        for reciver in recivers:
+            msg = EmailMessage()
+            msg["From"] = email_user
+            msg["To"] = reciver[1]
+            msg["Subject"] = f"Warnung: {produkt}"
+            msg.set_content(f"Hallo {reciver[0]},\nes gibt ein Problem mit {produkt}.")
+
+            server.send_message(msg)
+
+warn("Kleber")
