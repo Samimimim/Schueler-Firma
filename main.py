@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 import os
 import db
 
+# Lade Umgebungsvariablen aus .env-Datei
 load_dotenv()
-
 
 
 app = Flask(__name__, template_folder='assets/templates')

@@ -1,28 +1,35 @@
 from flask import jsonify
 import sqlite3
 import datetime
+from contextlib import contextmanager
+import send  
+
+DB_PATH = "./db/schüler-firma.db"
+
+@contextmanager
+def get_db():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    try:
+        yield conn
+    finally:
+        conn.close()
 
 def get_tables():
-    conn = sqlite3.connect('./db/schüler-firma.db')
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT name FROM sqlite_master WHERE type='table'")
+        tables = [row["name"] for row in cur.fetchall()]
+        all_data = {}
+        for table in tables:
+            try:
+                cur.execute(f"SELECT * FROM {table}")
+                rows = [dict(row) for row in cur.fetchall()]
+                all_data[table] = rows
+            except Exception:
+                all_data[table] = "Fehler beim Abrufen"
+        return jsonify(all_data)
 
-    cur.execute("SELECT name FROM sqlite_master WHERE type='table'")
-    tables = [row["name"] for row in cur.fetchall()]
-
-    all_data = {}
-    for table in tables:
-        try:
-            cur.execute(f"SELECT * FROM {table}")
-            rows = [dict(row) for row in cur.fetchall()]
-            all_data[table] = rows
-        except:
-            all_data[table] = "Fehler beim Abrufen"
-
-    conn.close()
-    return jsonify(all_data)
-
-#------------------------
 def add_produkt(data):
     name = data.get('name')
     stueckzahl = data.get('stueckzahl')
@@ -32,32 +39,33 @@ def add_produkt(data):
         return jsonify({'error': 'Ungültige Eingabedaten'}), 400
 
     try:
-        with sqlite3.connect("./db/schüler-firma.db") as conn:
+        with get_db() as conn:
             cursor = conn.cursor()
-            # Prüfen, ob Produkt schon existiert
             cursor.execute("SELECT stueckzahl FROM inventar WHERE name = ?", (name,))
             result = cursor.fetchone()
-
             if result:
-                # Produkt existiert -> Stückzahl erhöhen
                 neue_stueckzahl = result[0] + stueckzahl
                 cursor.execute(
                     "UPDATE inventar SET stueckzahl = ? WHERE name = ?",
                     (neue_stueckzahl, name)
                 )
             else:
-                # Produkt existiert nicht -> neu einfügen
                 cursor.execute(
                     "INSERT INTO inventar (name, stueckzahl, beschreibung) VALUES (?, ?, ?)",
                     (name, stueckzahl, beschreibung)
                 )
-
             conn.commit()
         return jsonify({'success': True}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-#------------------------------
+def check_seller(cursor, seller_id, label):
+    if seller_id is not None:
+        cursor.execute("SELECT 1 FROM verkaeufer WHERE id = ?", (seller_id,))
+        if not cursor.fetchone():
+            raise ValueError(f'{label} mit ID {seller_id} nicht gefunden')
+    return seller_id
+
 def add_transaktion(data):
     input_objekt = data.get('objekt_name')
     anzahl = data.get('anzahl')
@@ -71,42 +79,41 @@ def add_transaktion(data):
         return jsonify({'error': 'Ungültige Eingabedaten'}), 400
 
     try:
-        with sqlite3.connect("./db/schüler-firma.db") as conn:
+        with get_db() as conn:
             cursor = conn.cursor()
-
             # Objekt-ID und Preis ermitteln
-            objekt_id, db_preis = None, None
-            if isinstance(input_objekt, int) or (isinstance(input_objekt, str) and input_objekt.isdigit()):
+            if isinstance(input_objekt, int) or (isinstance(input_objekt, str) and str(input_objekt).isdigit()):
                 objekt_id = int(input_objekt)
-                cursor.execute("SELECT price FROM inventar WHERE id = ?", (objekt_id,))
+                cursor.execute("SELECT price, stueckzahl, name FROM inventar WHERE id = ?", (objekt_id,))
                 row = cursor.fetchone()
                 if not row:
                     return jsonify({'error': f'Kein Inventar-Eintrag mit ID {objekt_id} gefunden'}), 400
-                db_preis = row[0]
+                db_preis, aktuelle_stueckzahl, produkt_name = row
             else:
-                cursor.execute("SELECT id, price FROM inventar WHERE name = ?", (input_objekt,))
+                cursor.execute("SELECT id, price, stueckzahl, name FROM inventar WHERE name = ?", (input_objekt,))
                 row = cursor.fetchone()
                 if not row:
                     return jsonify({'error': f'Kein Inventar-Eintrag mit Name \"{input_objekt}\" gefunden'}), 400
-                objekt_id, db_preis = row
+                objekt_id, db_preis, aktuelle_stueckzahl, produkt_name = row
 
-            # Preis ggf. aus DB übernehmen
             if not preis_pro_stueck:
                 preis_pro_stueck = db_preis
 
-            # Verkäufer prüfen (None zulassen)
-            def check_seller(seller_id, label):
-                if seller_id is not None:
-                    cursor.execute("SELECT 1 FROM verkaeufer WHERE id = ?", (seller_id,))
-                    if not cursor.fetchone():
-                        raise ValueError(f'{label} mit ID {seller_id} nicht gefunden')
-                return seller_id
-
+            # Verkäufer prüfen
             try:
-                seller1_id = check_seller(seller1_id, "Seller1")
-                seller2_id = check_seller(seller2_id, "Seller2")
+                seller1_id = check_seller(cursor, seller1_id, "Seller1")
+                seller2_id = check_seller(cursor, seller2_id, "Seller2")
             except ValueError as ve:
                 return jsonify({'error': str(ve)}), 400
+
+            # Stückzahl updaten
+            if aktuelle_stueckzahl is None or aktuelle_stueckzahl < anzahl:
+                return jsonify({'error': 'Nicht genügend Stück auf Lager'}), 400
+            neue_stueckzahl = aktuelle_stueckzahl - anzahl
+            cursor.execute(
+                "UPDATE inventar SET stueckzahl = ? WHERE id = ?",
+                (neue_stueckzahl, objekt_id)
+            )
 
             # Eintrag speichern
             cursor.execute("""
@@ -115,18 +122,21 @@ def add_transaktion(data):
             """, (objekt_id, anzahl, preis_pro_stueck, datum, beschreibung, seller1_id, seller2_id))
             conn.commit()
 
+            # Nach Verkauf: Prüfen ob Bestand kritisch und ggf. Mail senden
+            try:
+                if check_critical_quantity(produkt_name):
+                    send.warn(produkt_name)
+            except Exception as e:
+                print(f"Fehler beim Senden der kritischen Bestandsmail: {e}")
+
             return jsonify({'success': True, 'id': cursor.lastrowid}), 201
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-#-------------------------
-def get_item(item_id, name):
-    with sqlite3.connect("./db/schüler-firma.db") as conn:
-        conn.row_factory = sqlite3.Row
+def get_item(item_id=None, name=None):
+    with get_db() as conn:
         cursor = conn.cursor()
-        
-
         if item_id:
             cursor.execute("SELECT * FROM inventar WHERE id = ?", (item_id,))
         elif name:
@@ -135,7 +145,23 @@ def get_item(item_id, name):
             return jsonify({"error": "Bitte 'id' oder 'name' angeben."}), 400
 
         item = cursor.fetchone()
-
         if item:
             return jsonify(dict(item))
         return jsonify({"error": "Item nicht gefunden"}), 404
+
+def get_quantity(produkt):
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT stueckzahl FROM inventar WHERE name = ?", (produkt,))
+        row = cursor.fetchone()
+        return row[0] if row else 0
+
+def get_critical_quantity(produkt):
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT critical_amount FROM inventar WHERE name = ?", (produkt,))
+        row = cursor.fetchone()
+        return row[0] if row else 0
+
+def check_critical_quantity(produkt):
+    return get_quantity(produkt) <= get_critical_quantity(produkt)

@@ -1,18 +1,6 @@
 Funktionen:
-
-#changePresets
-#getPresets
-#searchProdukt
-#addTransaction
-moveItem
-
-
-Funktionen:
-Mehrere Lager
-Automatisches Subtrahieren, bei Verkaufen
-Automatische Email bei knappen bestand versenden.
-Produkte verschieben
 Bestellen
+Bei dem Tabellen menü Normal und Experten Modus einbauen
 
 Sicherheit:
 Auf https wechseln
@@ -24,14 +12,10 @@ KEINE DATEN HARDCODEN!!!!!!!!!!!!
 
 Grafik:
 Komplettes Disign überarbeiten
-#Fürs Tablett optimieren
-#Eigenes Logo disignen
 
 Struktur:
-Alle db komunitionen über db.py regen
-Alle Emails über email.py versenden.
 Ruten zu den HTML Datei ggf. verbessern. z.b.:/assets/impressum.html ---> /impressum
-Gescheiten Namen für send.py
+
 
 Zuverlässigkeit:
 Alles db befehle in eine Queue schreiben die abgearbeitet wird
@@ -39,3 +23,4 @@ Errorhandeling verbessern
 
 BUG:
 Die Funktion Proudult hinzufügen, hat keinen Weg den Preis zu bestimmen
+

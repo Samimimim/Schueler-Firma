@@ -26,8 +26,14 @@ def warn(produkt):
             msg["From"] = email_user
             msg["To"] = reciver[1]
             msg["Subject"] = f"Warnung: {produkt}"
-            msg.set_content(f"Hallo {reciver[0]},\nes gibt ein Problem mit {produkt}.")
+            msg.set_content(
+                f"""Hallo {reciver[0]},
+                Das Produkt "{produkt}" hat ein Problem gemeldet,
+                was vermutlich einen gerinen Lagerbestand bedeutet. 
+                Bitte überprüfe es so schnell wie möglich, z.B. über die Webseite.
+                
+                Viele Grüße,
+                Lagerverwaltungssystem.
+                """)
 
             server.send_message(msg)
-
-warn("Kleber")
