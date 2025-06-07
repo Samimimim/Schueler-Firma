@@ -12,6 +12,7 @@ Mehrere Lager
 Automatisches Subtrahieren, bei Verkaufen
 Automatische Email bei knappen bestand versenden.
 Produkte verschieben
+Bestellen
 
 Sicherheit:
 Auf https wechseln
@@ -23,8 +24,8 @@ KEINE DATEN HARDCODEN!!!!!!!!!!!!
 
 Grafik:
 Komplettes Disign überarbeiten
-Fürs Tablett optimieren
-Eigenes Logo disignen
+#Fürs Tablett optimieren
+#Eigenes Logo disignen
 
 Struktur:
 Alle db komunitionen über db.py regen
