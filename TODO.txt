@@ -21,4 +21,7 @@ Zuverlässigkeit:
 Alles db befehle in eine Queue schreiben die abgearbeitet wird
 Errorhandeling verbessern
 
+Unklar:
+Soll ich den "Admin werden" Knopf auf doppel oder einzel klick programmieren
+
 BUG:
