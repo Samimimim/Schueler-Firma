@@ -5,6 +5,7 @@ from contextlib import contextmanager
 import send  
 
 DB_PATH = "./db/schüler-firma.db"
+crirical_quantity = 5  # Kritische Menge für Warnung
 
 @contextmanager
 def get_db():
@@ -34,8 +35,9 @@ def add_produkt(data):
     name = data.get('name')
     stueckzahl = data.get('stueckzahl')
     beschreibung = data.get('beschreibung', '')
+    preis = data.get('preis')
 
-    if not name or not isinstance(stueckzahl, int):
+    if not name or not isinstance(stueckzahl, int) :
         return jsonify({'error': 'Ungültige Eingabedaten'}), 400
 
     try:
@@ -51,8 +53,8 @@ def add_produkt(data):
                 )
             else:
                 cursor.execute(
-                    "INSERT INTO inventar (name, stueckzahl, beschreibung) VALUES (?, ?, ?)",
-                    (name, stueckzahl, beschreibung)
+                    "INSERT INTO inventar (name, stueckzahl, beschreibung, preis) VALUES (?, ?, ?, ?)",
+                    (name, stueckzahl, beschreibung, preis)
                 )
             conn.commit()
         return jsonify({'success': True}), 201
@@ -84,13 +86,13 @@ def add_transaktion(data):
             # Objekt-ID und Preis ermitteln
             if isinstance(input_objekt, int) or (isinstance(input_objekt, str) and str(input_objekt).isdigit()):
                 objekt_id = int(input_objekt)
-                cursor.execute("SELECT price, stueckzahl, name FROM inventar WHERE id = ?", (objekt_id,))
+                cursor.execute("SELECT preis, stueckzahl, name FROM inventar WHERE id = ?", (objekt_id,))
                 row = cursor.fetchone()
                 if not row:
                     return jsonify({'error': f'Kein Inventar-Eintrag mit ID {objekt_id} gefunden'}), 400
                 db_preis, aktuelle_stueckzahl, produkt_name = row
             else:
-                cursor.execute("SELECT id, price, stueckzahl, name FROM inventar WHERE name = ?", (input_objekt,))
+                cursor.execute("SELECT id, preis, stueckzahl, name FROM inventar WHERE name = ?", (input_objekt,))
                 row = cursor.fetchone()
                 if not row:
                     return jsonify({'error': f'Kein Inventar-Eintrag mit Name \"{input_objekt}\" gefunden'}), 400
@@ -156,12 +158,5 @@ def get_quantity(produkt):
         row = cursor.fetchone()
         return row[0] if row else 0
 
-def get_critical_quantity(produkt):
-    with get_db() as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT critical_amount FROM inventar WHERE name = ?", (produkt,))
-        row = cursor.fetchone()
-        return row[0] if row else 0
-
 def check_critical_quantity(produkt):
-    return get_quantity(produkt) <= get_critical_quantity(produkt)
+    return get_quantity(produkt) <= critical_quantity

@@ -18,6 +18,7 @@
     <h3>Neues Produkt</h3>
     <input type="text" id="name" placeholder="Name" required>
     <input type="number" id="stueckzahl" placeholder="Stückzahl" required>
+    <input type="number" id="preis" placeholder="Preis" required>
     <textarea id="beschreibung" placeholder="Beschreibung"></textarea>
     <button onclick="submitProdukt()">Hinzufügen</button>
     <button onclick="closePopup()">Abbrechen</button>
@@ -40,11 +41,12 @@
       const name = document.getElementById('name').value;
       const stueckzahl = parseInt(document.getElementById('stueckzahl').value);
       const beschreibung = document.getElementById('beschreibung').value;
+      const preis = document.getElementById('preis').value;
 
       const res = await fetch('/api/addProdukt', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, stueckzahl, beschreibung })
+        body: JSON.stringify({ name, stueckzahl, beschreibung, preis })
       });
 
       const result = await res.json();

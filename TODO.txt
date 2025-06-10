@@ -22,5 +22,3 @@ Alles db befehle in eine Queue schreiben die abgearbeitet wird
 Errorhandeling verbessern
 
 BUG:
-Die Funktion Proudult hinzufügen, hat keinen Weg den Preis zu bestimmen
-
