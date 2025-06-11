@@ -87,15 +87,15 @@ http://localhost:5000
 
 <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
 
-<img src="/static/screenshots/1.png" alt="Screenshot 1" width="220"/>
-<img src="/static/screenshots/2.png" alt="Screenshot 2" width="220"/>
-<img src="/static/screenshots/3.png" alt="Screenshot 3" width="220"/>
-<img src="/static/screenshots/4.png" alt="Screenshot 4" width="220"/>
-<img src="/static/screenshots/5.png" alt="Screenshot 5" width="220"/>
-<img src="/static/screenshots/6.png" alt="Screenshot 6" width="220"/>
-<img src="/static/screenshots/7.png" alt="Screenshot 7" width="220"/>
-<img src="/static/screenshots/8.png" alt="Screenshot 8" width="220"/>
-<img src="/static/screenshots/9.png" alt="Screenshot 9" width="220"/>
-<img src="/static/screenshots/10.png" alt="Screenshot 10" width="220"/>
+<img src="app/static/screenshots/screenshots/1.png" alt="Screenshot 1" width="220"/>
+<img src="app/static/screenshots/screenshots/2.png" alt="Screenshot 2" width="220"/>
+<img src="app/static/screenshots/screenshots/3.png" alt="Screenshot 3" width="220"/>
+<img src="app/static/screenshots/screenshots/4.png" alt="Screenshot 4" width="220"/>
+<img src="app/static/screenshots/screenshots/5.png" alt="Screenshot 5" width="220"/>
+<img src="app/static/screenshots/screenshots/6.png" alt="Screenshot 6" width="220"/>
+<img src="app/static/screenshots/screenshots/7.png" alt="Screenshot 7" width="220"/>
+<img src="app/static/screenshots/screenshots/8.png" alt="Screenshot 8" width="220"/>
+<img src="app/static/screenshots/screenshots/9.png" alt="Screenshot 9" width="220"/>
+<img src="app/static/screenshots/screenshots/10.png" alt="Screenshot 10" width="220"/>
 
 </div>
