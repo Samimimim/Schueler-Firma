@@ -6,7 +6,9 @@ import json
 
 
 #Private Daten holen
-load_dotenv()
+# Lade Umgebungsvariablen aus .env-Datei
+env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+load_dotenv(dotenv_path=env_path)
 email_user = os.getenv("EMAIL_USER")
 email_pass = os.getenv("EMAIL_PASS")
 

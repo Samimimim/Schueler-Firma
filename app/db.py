@@ -5,7 +5,7 @@ from contextlib import contextmanager
 import send  
 
 DB_PATH = "./db/schüler-firma.db"
-crirical_quantity = 5  # Kritische Menge für Warnung
+critical_quantity = 5  # Kritische Menge für Warnung
 
 @contextmanager
 def get_db():

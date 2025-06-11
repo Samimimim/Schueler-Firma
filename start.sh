@@ -1,1 +1,1 @@
-./python/bin/python main.py
+./python/bin/python app/main.py

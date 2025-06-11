@@ -248,3 +248,76 @@ button:active, input[type="submit"]:active, input[type="button"]:active {
     background: rgba(68, 255, 0, 0.18);
     z-index: 999;
 }
+
+/* Fallout-Login-Formular */
+.login-container {
+    max-width: 350px;
+    margin: 60px auto 0 auto;
+    background: #181c13;
+    border: 3px solid #39ff14;
+    border-radius: 16px;
+    box-shadow: 0 0 32px #39ff1444, 0 0 0 8px #0f1a0b inset;
+    padding: 38px 32px 28px 32px;
+    text-align: center;
+    animation: crt-flicker 2.2s infinite linear alternate;
+}
+
+.login-container h2 {
+    color: #39ff14;
+    font-family: 'VT323', monospace;
+    font-size: 2.2em;
+    margin-bottom: 28px;
+    text-shadow: 0 0 12px #39ff14;
+    letter-spacing: 2px;
+}
+
+.login-container input[type="password"] {
+    width: 90%;
+    padding: 12px 14px;
+    margin-bottom: 22px;
+    border: 2px solid #39ff14;
+    border-radius: 8px;
+    background: #1e2417;
+    color: #39ff14;
+    font-size: 1.2em;
+    font-family: 'VT323', monospace;
+    box-shadow: 0 0 8px #39ff1444 inset;
+    outline: none;
+    transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+.login-container input[type="password"]:focus {
+    border-color: #eaffae;
+    box-shadow: 0 0 16px #39ff14;
+}
+
+.login-container button[type="submit"] {
+    background: #181c13;
+    color: #39ff14;
+    border: 2.5px solid #39ff14;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 1.3em;
+    font-family: 'VT323', monospace;
+    cursor: pointer;
+    box-shadow: 0 0 16px #39ff1444;
+    transition: background 0.18s, color 0.18s, border-color 0.18s, transform 0.18s;
+    text-shadow: 0 0 8px #39ff14;
+    letter-spacing: 2px;
+}
+
+.login-container button[type="submit"]:hover {
+    background: #39ff14;
+    color: #181c13;
+    border-color: #39ff14;
+    transform: translateY(-2px) scale(1.06);
+    box-shadow: 0 0 32px #39ff14;
+    text-shadow: none;
+}
+
+.login-container .error {
+    color: #ff4a4a;
+    font-size: 1.1em;
+    margin-bottom: 18px;
+    text-shadow: 0 0 6px #ff4a4a;
+}

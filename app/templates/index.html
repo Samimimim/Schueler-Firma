@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schüler-Firma</title>
-    <link rel="stylesheet" href="/assets/sytle/style.css">
-    <link rel="icon" href="/assets/img/favicon.png" type="image/png" />
-    <link rel="apple-touch-icon" href="/assets/img/favicon.png" />
+    <link rel="stylesheet" href="/static/sytle/style.css">
+    <link rel="icon" href="/static/img/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/static/img/favicon.png" />
     <script>
         function switch_to_admin() {
-            let pass = prompt("Bitte gib das Admin Passwort ein", "**********");
+            let pass = prompt("Bitte gib das Passwort ein");
             window.location.replace("/login?auth="+ pass);
         }
     </script>
@@ -50,7 +50,8 @@
         </div>
     </div>
 
-    <button onclick="location.href='/assets/templates/impressum.html'" type="button">ℹ️ Impressum</button>
-    <button ondblclick="switch_to_admin()">Ereiterter Modus (Nur Admins)</button>
+    <button onclick="location.href='/impressum'" type="button">ℹ️ Impressum</button>
+        <button ondblclick="location.href='/login'" type="button">🔒Admin werden</button>
+
 </body>
 </html>
