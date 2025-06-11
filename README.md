@@ -82,3 +82,20 @@ http://localhost:5000
 - Inventar, Verkaufe, Verkaufer einsehen und teilweise bearbeiten
 - Produkte suchen
 - Teilweise geschützter admin Bereich
+
+## 📷Screenshots
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+
+<img src="/screenshots/1-10.png" alt="Screenshot 1" width="220"/>
+<img src="/screenshots/2-10.png" alt="Screenshot 2" width="220"/>
+<img src="/screenshots/3-10.png" alt="Screenshot 3" width="220"/>
+<img src="/screenshots/4-10.png" alt="Screenshot 4" width="220"/>
+<img src="/screenshots/5-10.png" alt="Screenshot 5" width="220"/>
+<img src="/screenshots/6-10.png" alt="Screenshot 6" width="220"/>
+<img src="/screenshots/7-10.png" alt="Screenshot 7" width="220"/>
+<img src="/screenshots/8-10.png" alt="Screenshot 8" width="220"/>
+<img src="/screenshots/9-10.png" alt="Screenshot 9" width="220"/>
+<img src="/screenshots/10-10.png" alt="Screenshot 10" width="220"/>
+
+</div>

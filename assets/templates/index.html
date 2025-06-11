@@ -21,6 +21,36 @@
         Wilkommen auf unserer Homepage
     </div>
     <br>
-    <button ondblclick="switch_to_admin()">Admin werden</button>
+    <div id="tables-container">
+        <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+            <!-- Öffnungszeiten -->
+            <div style="flex: 1; min-width: 300px;">
+                <h2>Öffnungszeiten</h2>
+                <table>
+                    <tr><th>Tag</th><th>Uhrzeit</th></tr>
+                    <tr><td>Montag</td><td>08:00 – 16:00</td></tr>
+                    <tr><td>Dienstag</td><td>08:00 – 16:00</td></tr>
+                    <tr><td>Mittwoch</td><td>08:00 – 14:00</td></tr>
+                    <tr><td>Donnerstag</td><td>08:00 – 16:00</td></tr>
+                    <tr><td>Freitag</td><td>08:00 – 12:00</td></tr>
+                </table>
+            </div>
+
+            <!-- Preise -->
+            <div style="flex: 1; min-width: 300px;">
+                <h2>Preise</h2>
+                <table>
+                    <tr><th>Produkte</th><th>Preis</th></tr>
+                    <tr><td>Flyer</td><td>10 €</td></tr>
+                    <tr><td>Buch</td><td>50 €</td></tr>
+                    <tr><td>Stift</td><td>15 €</td></tr>
+                    <tr><td>Radiergummi</td><td>ab 0,10 €/Seite</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="location.href='/assets/templates/impressum.html'" type="button">ℹ️ Impressum</button>
+    <button ondblclick="switch_to_admin()">Ereiterter Modus (Nur Admins)</button>
 </body>
 </html>

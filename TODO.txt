@@ -9,7 +9,7 @@ Die APIs auf Sicherheits lücken checken
 KEINE DATEN HARDCODEN!!!!!!!!!!!!
 
 Grafik:
-Komplettes Disign überarbeiten
+
 
 Struktur:
 
