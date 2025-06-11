@@ -72,7 +72,7 @@ http://localhost:5000
 ## 🔐 Admin-Zugang
 
 - Das **Admin-Panel** ist über die Web-Oberfläche erreichbar.
-- Den Knopf "Admin werden drücken"
+- Den Knopf **Admin werden doppelt drücken**
 - Zugang erfolgt über das Passwort in der `.env`-Datei (`ADMIN_PASS`).
 
 ---
