@@ -2,7 +2,7 @@ from flask import jsonify
 import sqlite3
 import datetime
 from contextlib import contextmanager
-import send  
+from app import send  
 
 DB_PATH = "./db/schüler-firma.db"
 critical_quantity = 5  # Kritische Menge für Warnung

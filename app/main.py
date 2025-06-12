@@ -2,7 +2,7 @@ from flask import Flask, jsonify, send_from_directory, render_template_string, r
 from dotenv import load_dotenv
 from functools import wraps
 import os
-import db
+from app import db
 
 #Admin Zugang
 def admin_required(f):
@@ -19,7 +19,7 @@ load_dotenv(dotenv_path=env_path)
 
 
 app = Flask(__name__, template_folder='templates')
-app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = os.getenv("SECRET_KEY","23456%$§WSDFG&54edfghjuzTRFG")
 
 
 
@@ -83,7 +83,7 @@ def get_item():
 def login():
     if request.method == 'POST':
         password = request.form.get('password')
-        if password == os.getenv("ADMIN_PASS"):
+        if password == os.getenv("ADMIN_PASS","Schule10"):
             session['admin'] = True
             return redirect('/admin-only/admin')
         return 'Falsches Passwort', 403
@@ -97,5 +97,5 @@ def logout():
     
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0')
 

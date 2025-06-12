@@ -4,9 +4,7 @@ Bestellen
 Sicherheit:
 Auf https wechseln
 Einen anderen Server statt Flask verwenden
-SQL injektionen verhindern
-Die APIs auf Sicherheits lücken checken 
-KEINE DATEN HARDCODEN!!!!!!!!!!!!
+
 
 Grafik:
 
@@ -20,6 +18,6 @@ Alles db befehle in eine Queue schreiben die abgearbeitet wird
 Errorhandeling verbessern
 
 Unklar:
-Soll ich den "Admin werden" Knopf auf doppel oder einzel klick programmieren
+
 
 BUG:
