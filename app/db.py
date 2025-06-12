@@ -18,18 +18,42 @@ def get_db():
 
 def get_tables():
     with get_db() as conn:
+        conn.row_factory = sqlite3.Row
         cur = conn.cursor()
+
+        # Alle Tabellen abfragen
         cur.execute("SELECT name FROM sqlite_master WHERE type='table'")
         tables = [row["name"] for row in cur.fetchall()]
         all_data = {}
+
         for table in tables:
             try:
-                cur.execute(f"SELECT * FROM {table}")
-                rows = [dict(row) for row in cur.fetchall()]
+                if table == "verkaeufe":
+                    # JOINs für verkaeufe
+                    cur.execute("""
+                SELECT 
+                    v.id, v.anzahl, v.preisPerPiece, v.date, v.description,
+                    i.name AS objekt_name,
+                    s1.name AS seller1_name,
+                    s2.name AS seller2_name
+                FROM verkaeufe v
+                LEFT JOIN inventar i ON v.objekt_id = i.id
+                LEFT JOIN verkaeufer s1 ON v.seller1_id = s1.id
+                LEFT JOIN verkaeufer s2 ON v.seller2_id = s2.id
+            """)
+
+                    rows = [dict(row) for row in cur.fetchall()]
+                else:
+                    # Normale Tabelle auslesen
+                    cur.execute(f"SELECT * FROM {table}")
+                    rows = [dict(row) for row in cur.fetchall()]
+                
                 all_data[table] = rows
-            except Exception:
-                all_data[table] = "Fehler beim Abrufen"
+            except Exception as e:
+                all_data[table] = f"Fehler beim Abrufen: {str(e)}"
+
         return jsonify(all_data)
+
 
 def add_produkt(data):
     name = data.get('name')
