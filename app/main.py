@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, send_from_directory, render_template_string, request, session, redirect, abort, render_template
 from dotenv import load_dotenv
 from functools import wraps
-import os
 from app import db
+import pathlib
+import os
+
 
 #Admin Zugang
 def admin_required(f):
@@ -78,6 +80,35 @@ def get_item():
     name = request.args.get("name")
     return db.get_item(item_id, name)
      
+@app.route('/api/env', methods=['GET'])
+@admin_required
+def get_env():
+    env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+    try:
+        with open(env_path, 'r') as f:
+            content = f.read()
+        return jsonify({"content": content})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/env', methods=['POST'])
+@admin_required
+def update_env():
+    env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+    data = request.json
+    content = data.get("content")
+    if not isinstance(content, str):
+        return jsonify({"error": "No content provided"}), 400
+    try:
+        # Optional: Backup der alten Datei
+        backup_path = env_path + ".bak"
+        pathlib.Path(env_path).rename(backup_path)
+        with open(env_path, 'w') as f:
+            f.write(content)
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 #--------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
