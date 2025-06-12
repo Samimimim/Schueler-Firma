@@ -14,6 +14,9 @@ email_pass = os.getenv("EMAIL_PASS")
 
 
 def warn(produkt):
+    if not email_user or not email_pass:
+        print("Email user or password not set in environment variables.")
+        return
     with open('./data/email_recivers.json', 'r') as file:
         recivers = json.load(file)
 
