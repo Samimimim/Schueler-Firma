@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, send_from_directory, request, session, redirect, abort, render_template
 from functools import wraps
-import settings
+from app import settings
 import pathlib
-import db
+from app import db
 import os
 
 
@@ -89,30 +89,20 @@ def get_item():
 @app.route('/api/settings', methods=['GET'])
 @admin_required
 def get_settings():
-    settings_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),"data", 'settings.json')
     try:
-        with open(settings_path, 'r') as f:
-            content = f.read()
-        return jsonify({"content": content})
+        current_settings = settings.get_settings()
+        return jsonify({"content": current_settings})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/settings', methods=['POST'])
 @admin_required
 def update_settings():
-    settings_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),"data", 'settings.json')
     data = request.json
-    content = data.get("content")
-    if not isinstance(content, str):
-        return jsonify({"error": "No content provided"}), 400
+    if not isinstance(data, dict):
+        return jsonify({"error": "Invalid settings format"}), 400
     try:
-        # Optional: Backup der alten Datei
-        backup_path = settings_path + ".bak"
-        if os.path.exists(backup_path):
-            os.remove(backup_path)
-        pathlib.Path(settings_path).rename(backup_path)
-        with open(settings_path, 'w') as f:
-            f.write(content)
+        settings.save_settings(data)
         return jsonify({"success": True})
     except Exception as e:
         return jsonify({"error": str(e)}), 500

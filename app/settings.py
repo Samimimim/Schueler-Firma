@@ -1,14 +1,15 @@
 import json
 
+CONFIG_PATH = './config/settings.json'
 
 def get_settings():
-    with open('../data/settings.json', 'r') as f:
+    with open(CONFIG_PATH, 'r') as f:
         settings = json.load(f)
         return settings
 
 
 def save_settings(settings):
-    with open('..\data\settings.json', 'w') as f:
+    with open(CONFIG_PATH, 'w') as f:
         json.dump(settings, f, indent=4)
 
 

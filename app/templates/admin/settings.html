@@ -91,13 +91,18 @@
       <div class="status" id="status"></div>
     </div>
     <script>
-      // Einstellungem laden
+      // Einstellungen laden
       function loadSettings() {
         fetch("/api/settings")
           .then((res) => res.json())
           .then((data) => {
             if (data.content !== undefined) {
-              document.getElementById("env-content").value = data.content;
+              // Objekt als JSON-String anzeigen
+              document.getElementById("env-content").value = JSON.stringify(
+                data.content,
+                null,
+                2
+              );
             } else {
               document.getElementById("status").textContent =
                 "Fehler beim Laden: " + (data.error || "Unbekannter Fehler");
@@ -109,13 +114,20 @@
           });
       }
 
-      // Settings speichern
+      // Einstellungen speichern
       function saveSettings() {
         const content = document.getElementById("env-content").value;
+        let parsed;
+        try {
+          parsed = JSON.parse(content);
+        } catch (e) {
+          document.getElementById("status").textContent = "Ungültiges JSON!";
+          return;
+        }
         fetch("/api/settings", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content }),
+          body: JSON.stringify(parsed),
         })
           .then((res) => res.json())
           .then((data) => {
@@ -131,7 +143,6 @@
           });
       }
 
-      // Beim Laden der Seite die Einstellungen anzeigen
       window.onload = loadSettings;
     </script>
   </body>

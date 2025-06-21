@@ -1,8 +1,6 @@
 import smtplib
 from email.message import EmailMessage
-import os
-import json
-import settings
+from app import settings
 
 message =  """Hallo {name},
 
