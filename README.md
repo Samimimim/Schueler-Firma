@@ -1,77 +1,70 @@
-# 📦 Web-App zur Lagersverwaltung
+# 📦 Schüler-Firma Lagerverwaltung
 
-Verwalte Verkäufe, Verkäufer und Inventar einfach über den Browser.
+Verwalte Verkäufe, Verkäufer und Inventar einfach und sicher über den Browser.
 
 ---
 
 ## 🚀 Schnellstart
 
-### 1. Virtuelle Umgebung erstellen
+### 1. Initialisierung (empfohlen)
+
+Führe das Setup-Skript aus, um alles automatisch einzurichten:
+
+```powershell
+python init.py
+```
+
+Das Skript erstellt eine virtuelle Umgebung, installiert Abhängigkeiten und legt die Konfigurationsdatei an.
+
+---
+
+### 2. Manuelle Einrichtung (optional)
+
+#### a) Virtuelle Umgebung erstellen
 
 ```powershell
 python -m venv venv
 ```
 
-### 2. Umgebung aktivieren (Windows PowerShell)
+#### b) Umgebung aktivieren (Windows PowerShell)
 
 ```powershell
 .\venv\Scripts\Activate.ps1
 ```
 
-❗ Bei Problemen mit der Ausführung:
+> Bei Problemen mit der Ausführung:
+>
+> ```powershell
+> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+> ```
+>
+> Dann erneut aktivieren.
 
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-
-Dann erneut aktivieren:
-
-```powershell
-.\venv\Scripts\Activate.ps1
-```
-
-### 3. Abhängigkeiten installieren
+#### c) Abhängigkeiten installieren
 
 ```powershell
 pip install -r requirements.txt
 ```
 
 **Benötigte Pakete:**
+
 - `flask` – Webserver
-- `gunicorn` – Produktions WSGL 
+- `gunicorn` – Produktionsserver
+
+#### d) Konfiguration
+
+Die Datei `config/settings.json` wird automatisch durch `init.py` erstellt.  
+Du kannst sie nach deinen Bedürfnissen anpassen.
 
 ---
 
-### 4. `settings.json`-Datei erstellen
-
-Erstelle im Hauptverzeichnis eine Datei namens `.env` mit folgendem Inhalt:
-
-```json
-{
-  "email_recivers": [ //Alle Empfänger der Email [NAME, EMAIL]
-    ["Max", "max.mustermann@lol.de"],
-    ["Erika", "erika.blume@heide.de"]
-  ],
-  "email_sender": {//Acount der für die versendung zuständing ist
-    "username": "EMAIL",
-    "password": "PASSWORT"
-  },
-  "backend": {//Wichige funktionen für das Backend
-    "secret_key": "b9f4e2a1c7d8f6e3b2a9c5d7e8f1a2b3",//Verschlüsselungs key
-    "admin_password": "admin123"//Passwort für das Admin Passwort
-  }
-}
-```
-
----
-
-### 5. Anwendung starten
+### 3. Anwendung starten
 
 ```powershell
-python main.py
+python run.py
 ```
 
-Ein lokaler **Flask-Server** wird gestartet. Die Web-App ist dann erreichbar unter:
+Die Web-App ist dann erreichbar unter:
 
 ```
 http://localhost:5000
@@ -82,18 +75,45 @@ http://localhost:5000
 ## 🔐 Admin-Zugang
 
 - Das **Admin-Panel** ist über die Web-Oberfläche erreichbar.
-- Den Knopf **Admin login** doppelt drücken.
-- Zugang erfolgt über das Passwort in den Einstellungen (`ADMIN_PASS`).
+- Zugang erfolgt über das Passwort aus der Konfiguration (`admin_password` in `config/settings.json`).
 
 ---
 
 ## ✅ Funktionen
 
-- Inventar, Verkaufe, Verkaufer einsehen und teilweise bearbeiten
+- Inventar, Verkäufe und Verkäufer einsehen und bearbeiten
 - Produkte suchen
-- Teilweise geschützter Admin Bereich
+- Geschützter Admin-Bereich
+- Einstellungen direkt im Browser bearbeiten
 
-## 📷Screenshots
+---
+
+## 🛠️ Projektstruktur
+
+```
+Schueler-Firma/
+│
+├── app/
+│   ├── __init__.py
+│   ├── db.py
+│   ├── routes.py
+│   ├── settings.py
+│   ├── static/
+│   └── templates/
+│
+├── config/
+│   └── settings.json
+│
+├── venv/
+├── requirements.txt
+├── run.py
+├── init.py
+└── README.md
+```
+
+---
+
+## 📷 Screenshots
 
 <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
 
@@ -107,6 +127,6 @@ http://localhost:5000
 <img src="app/static/screenshots/8.png" alt="Screenshot 8" width="220"/>
 <img src="app/static/screenshots/9.png" alt="Screenshot 9" width="220"/>
 <img src="app/static/screenshots/10.png" alt="Screenshot 10" width="220"/>
-<img src="app/static/screenshots/11.png" alt="Screenshot 10" width="220"/>
+<img src="app/static/screenshots/11.png" alt="Screenshot 11" width="220"/>
 
 </div>
