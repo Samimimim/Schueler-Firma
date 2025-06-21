@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>403 Forbidden</title>
+    <style>
+      body.pipboy-bg {
+        background: #101c11;
+        color: #39ff14;
+        font-family: "Courier New", Courier, monospace;
+        margin: 0;
+        min-height: 100vh;
+      }
+      .pipboy-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-shadow: 0 0 8px #39ff14, 0 0 2px #39ff14;
+      }
+      .pipboy-text {
+        font-size: 1.5rem;
+        margin-bottom: 24px;
+        letter-spacing: 1px;
+      }
+      .pipboy-btn {
+        display: inline-block;
+        padding: 12px 32px;
+        border: 2px solid #39ff14;
+        color: #39ff14;
+        background: transparent;
+        text-decoration: none;
+        font-size: 1.2rem;
+        border-radius: 4px;
+        box-shadow: 0 0 8px #39ff14;
+        transition: background 0.2s, color 0.2s;
+      }
+      .pipboy-btn:hover {
+        background: #39ff14;
+        color: #101c11;
+      }
+    </style>
+  </head>
+  <body class="pipboy-bg">
+    <div class="pipboy-container">
+      <img src="/static/img/403.png" />
+      <div class="pipboy-text">
+        <strong>Forbidden</strong><br />
+        Du hast für diese Seite keine Berechtigung, <br> versuche dich erneut einzuloggen.
+      </div>
+      <a href="/" class="pipboy-btn">Go back to homepage</a>
+      <a href="/login" class="pipboy-btn" style="margin-top: 30px">Login</a>
+    </div>
+  </body>
+</html>

@@ -1,23 +1,12 @@
-Funktionen:
+->Funktionen:
 Bestellen
 
-Sicherheit:
+
+->Sicherheit:
 Auf https wechseln
 Einen anderen Server statt Flask verwenden
 
 
-Grafik:
-
-
-Struktur:
-
-
-
-Zuverlässigkeit:
+->Zuverlässigkeit:
 Alles db befehle in eine Queue schreiben die abgearbeitet wird
 Errorhandeling verbessern
-
-Unklar:
-
-
-BUG:

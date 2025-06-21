@@ -1,8 +1,8 @@
-from flask import Flask, jsonify, send_from_directory, render_template_string, request, session, redirect, abort, render_template
-from dotenv import load_dotenv
+from flask import Flask, jsonify, send_from_directory, request, session, redirect, abort, render_template
 from functools import wraps
-from app import db
+import settings
 import pathlib
+import db
 import os
 
 
@@ -15,16 +15,22 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Lade Umgebungsvariablen aus .env-Datei
-env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
-load_dotenv(dotenv_path=env_path)
+
+app = Flask(__name__)
+
+#Einstellungen laden
+backend = settings.get_settings()["backend"]
+app.secret_key = backend["secret_key"]
 
 
-app = Flask(__name__, template_folder='templates')
-app.secret_key = os.getenv("SECRET_KEY","23456%$§WSDFG&54edfghjuzTRFG")
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
-
+@app.errorhandler(403)
+def page_not_found(e):
+    return render_template('403.html'), 403
 
 @app.route('/')
 def home():
@@ -40,10 +46,10 @@ def login_site():
     return render_template('login.html')
 
 #Admin stuff
-@app.route('/admin-only/<path:filename>')
+@app.route('/admin/<path:filename>')
 @admin_required
 def serve_admin_only(filename):
-    return send_from_directory('admin-only', filename+'.html')
+    return send_from_directory('templates/admin', filename+'.html')
 
 
 
@@ -80,30 +86,32 @@ def get_item():
     name = request.args.get("name")
     return db.get_item(item_id, name)
      
-@app.route('/api/env', methods=['GET'])
+@app.route('/api/settings', methods=['GET'])
 @admin_required
-def get_env():
-    env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+def get_settings():
+    settings_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),"data", 'settings.json')
     try:
-        with open(env_path, 'r') as f:
+        with open(settings_path, 'r') as f:
             content = f.read()
         return jsonify({"content": content})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/api/env', methods=['POST'])
+@app.route('/api/settings', methods=['POST'])
 @admin_required
-def update_env():
-    env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+def update_settings():
+    settings_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),"data", 'settings.json')
     data = request.json
     content = data.get("content")
     if not isinstance(content, str):
         return jsonify({"error": "No content provided"}), 400
     try:
         # Optional: Backup der alten Datei
-        backup_path = env_path + ".bak"
-        pathlib.Path(env_path).rename(backup_path)
-        with open(env_path, 'w') as f:
+        backup_path = settings_path + ".bak"
+        if os.path.exists(backup_path):
+            os.remove(backup_path)
+        pathlib.Path(settings_path).rename(backup_path)
+        with open(settings_path, 'w') as f:
             f.write(content)
         return jsonify({"success": True})
     except Exception as e:
@@ -114,13 +122,13 @@ def update_env():
 def login():
     if request.method == 'POST':
         password = request.form.get('password')
-        if password == os.getenv("ADMIN_PASS","Schule10"):
+        if password == backend["admin_password"]:
             session['admin'] = True
-            return redirect('/admin-only/admin')
-        return 'Falsches Passwort', 403
+            return redirect('/admin/dashboard')
+        return render_template('403.html'), 403
     return render_template('login.html')
 
-# Logout (optional)
+# Logout 
 @app.route('/logout')
 def logout():
     session.clear()

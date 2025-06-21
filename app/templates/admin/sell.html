@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Schüler-Firma</title>
+    <link rel="stylesheet" href="/static/style/style.css" />
+    <link rel="icon" href="/static/img/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/static/img/favicon.png" />
+  </head>
+  <body>
+    <h1>Verkaufen</h1>
+
+    <img
+      src="/static/img/back.png"
+      alt="Back"
+      class="back-button"
+      onclick="window.history.back()"
+    />
+    <button onclick="openPopup()">Transaktion hinzufügen</button>
+
+    <div
+      id="overlay"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #00000066;
+      "
+    ></div>
+
+    <div
+      id="popup"
+      style="
+        display: none;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+      "
+    >
+      <h3>Neue Transaktion</h3>
+      <input
+        type="text"
+        id="objekt_name"
+        placeholder="Objektname"
+        required
+      /><br /><br />
+      <input
+        type="number"
+        id="anzahl"
+        placeholder="Anzahl"
+        required
+      /><br /><br />
+      <input
+        type="number"
+        step="0.01"
+        id="preis_pro_stueck"
+        placeholder="Preis pro Stück"
+      /><br /><br />
+      <input type="date" id="datum" /><br /><br />
+      <textarea id="beschreibung" placeholder="Beschreibung"></textarea
+      ><br /><br />
+      <input
+        type="number"
+        id="seller1_id"
+        placeholder="Seller1 ID"
+      /><br /><br />
+      <input
+        type="number"
+        id="seller2_id"
+        placeholder="Seller2 ID"
+      /><br /><br />
+      <button onclick="submitTransaktion()">Hinzufügen</button>
+      <button onclick="closePopup()">Abbrechen</button>
+      <p id="status"></p>
+    </div>
+
+    <script>
+      function openPopup() {
+        document.getElementById("popup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+      }
+
+      function closePopup() {
+        document.getElementById("popup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+        document.getElementById("status").textContent = "";
+      }
+
+      async function submitTransaktion() {
+        const objekt_name = document.getElementById("objekt_name").value;
+        const anzahl = parseInt(document.getElementById("anzahl").value);
+        const preis_pro_stueck =
+          parseFloat(document.getElementById("preis_pro_stueck").value) || 0;
+        const datum = document.getElementById("datum").value;
+        const beschreibung = document.getElementById("beschreibung").value;
+        const seller1_id_raw = document.getElementById("seller1_id").value;
+        const seller2_id_raw = document.getElementById("seller2_id").value;
+
+        // seller-IDs: null wenn leer
+        const seller1_id =
+          seller1_id_raw === "" ? null : parseInt(seller1_id_raw);
+        const seller2_id =
+          seller2_id_raw === "" ? null : parseInt(seller2_id_raw);
+
+        try {
+          const res = await fetch("/addTransaktion", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              objekt_name,
+              anzahl,
+              preis_pro_stueck,
+              datum,
+              beschreibung,
+              seller1_id,
+              seller2_id,
+            }),
+          });
+
+          const data = await res.json();
+          if (!res.ok) {
+            document.getElementById("status").textContent =
+              "Fehler: " + data.error;
+            alert("Fehler: " + data.error);
+          } else {
+            document.getElementById("status").textContent =
+              "Transaktion erstellt mit ID: " + data.id;
+            alert("Transaktion erstellt mit ID: " + data.id);
+            closePopup();
+          }
+        } catch (err) {
+          document.getElementById("status").textContent = "Netzwerkfehler";
+          alert("Netzwerkfehler");
+        }
+      }
+    </script>
+
+    <br />
+    <div id="transactions"></div>
+  </body>
+</html>

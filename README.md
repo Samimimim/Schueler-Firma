@@ -1,6 +1,6 @@
 # 📦 Web-App zur Lagersverwaltung
 
-Verwalte Verkäufe, Verkäufer und Inventar einfach über den Browser. Ideal für Schülerfirmen, kleine Betriebe oder private Projekte.
+Verwalte Verkäufe, Verkäufer und Inventar einfach über den Browser.
 
 ---
 
@@ -38,19 +38,29 @@ pip install -r requirements.txt
 
 **Benötigte Pakete:**
 - `flask` – Webserver
-- `python-dotenv` – Laden von Umgebungsvariablen aus `.env`
+- `gunicorn` – Produktions WSGL 
 
 ---
 
-### 4. `.env`-Datei erstellen
+### 4. `settings.json`-Datei erstellen
 
 Erstelle im Hauptverzeichnis eine Datei namens `.env` mit folgendem Inhalt:
 
-```env
-EMAIL_USER=dein.email@example.com     # Optional
-EMAIL_PASS=deinEmailPasswort          # Optional
-SECRET_KEY=ein_sicherer_schlüssel     # Pflicht
-ADMIN_PASS=adminPasswort              # Pflicht (für Admin-Login)
+```json
+{
+  "email_recivers": [ //Alle Empfänger der Email [NAME, EMAIL]
+    ["Max", "max.mustermann@lol.de"],
+    ["Erika", "erika.blume@heide.de"]
+  ],
+  "email_sender": {//Acount der für die versendung zuständing ist
+    "username": "EMAIL",
+    "password": "PASSWORT"
+  },
+  "backend": {//Wichige funktionen für das Backend
+    "secret_key": "b9f4e2a1c7d8f6e3b2a9c5d7e8f1a2b3",//Verschlüsselungs key
+    "admin_password": "admin123"//Passwort für das Admin Passwort
+  }
+}
 ```
 
 ---
@@ -72,8 +82,8 @@ http://localhost:5000
 ## 🔐 Admin-Zugang
 
 - Das **Admin-Panel** ist über die Web-Oberfläche erreichbar.
-- Den Knopf **Admin werden doppelt drücken**
-- Zugang erfolgt über das Passwort in der `.env`-Datei (`ADMIN_PASS`).
+- Den Knopf **Admin login** doppelt drücken.
+- Zugang erfolgt über das Passwort in den Einstellungen (`ADMIN_PASS`).
 
 ---
 
@@ -81,7 +91,7 @@ http://localhost:5000
 
 - Inventar, Verkaufe, Verkaufer einsehen und teilweise bearbeiten
 - Produkte suchen
-- Teilweise geschützter admin Bereich
+- Teilweise geschützter Admin Bereich
 
 ## 📷Screenshots
 

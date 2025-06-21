@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Login – Schüler-Firma</title>
-    <link rel="stylesheet" href="/static/style/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="/static/style/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="login-container">
-        <h2>Admin Login</h2>
-        {% if error %}
-            <div class="error">{{ error }}</div>
-        {% endif %}
-        <form method="post" action="/login">
-            <input type="password" name="password" placeholder="Admin-Passwort" required>
-            <br>
-            <button type="submit">Login</button>
-        </form>
+      <h2>Admin Login</h2>
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+      <form method="post" action="/login">
+        <input
+          type="password"
+          name="password"
+          placeholder="Admin-Passwort"
+          required
+        />
+        <br />
+        <button type="submit">Login</button>
+      </form>
     </div>
-</body>
+  </body>
 </html>
