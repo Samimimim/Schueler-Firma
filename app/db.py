@@ -175,6 +175,24 @@ def get_item(item_id=None, name=None):
             return jsonify(dict(item))
         return jsonify({"error": "Item nicht gefunden"}), 404
 
+def get_todays_sales():
+    today = datetime.date.today().isoformat()
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT v.id, v.anzahl, v.preisPerPiece, v.date, v.description,
+                   i.name AS objekt_name,
+                   s1.name AS seller1_name,
+                   s2.name AS seller2_name
+            FROM verkaeufe v
+            LEFT JOIN inventar i ON v.objekt_id = i.id
+            LEFT JOIN verkaeufer s1 ON v.seller1_id = s1.id
+            LEFT JOIN verkaeufer s2 ON v.seller2_id = s2.id
+            WHERE date = ?
+        """, (today,))
+        rows = [dict(row) for row in cursor.fetchall()]
+        return jsonify(rows)
+
 def get_quantity(produkt):
     with get_db() as conn:
         cursor = conn.cursor()

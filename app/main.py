@@ -60,6 +60,12 @@ def get_tables():
     return db.get_tables()
 
 
+#API: Alle aktuellen verkaufe
+@app.route('/api/todaysSales')
+@admin_required
+def get_todays_sales():
+    return db.get_todays_sales()
+
 #Neue Produkt hinzufügen
 @app.route('/api/addProdukt', methods=['POST'])
 @admin_required
