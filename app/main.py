@@ -113,6 +113,15 @@ def update_settings():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+#API: Get Database
+@app.route('/api/database')
+@admin_required
+def get_database():
+    try:
+        db_content = db.serve_db_as_xlsx()
+        return db_content
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 #--------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():

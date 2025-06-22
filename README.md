@@ -128,5 +128,8 @@ Schueler-Firma/
 <img src="app/static/screenshots/9.png" alt="Screenshot 9" width="220"/>
 <img src="app/static/screenshots/10.png" alt="Screenshot 10" width="220"/>
 <img src="app/static/screenshots/11.png" alt="Screenshot 11" width="220"/>
+<img src="app/static/screenshots/12.png" alt="Screenshot 12" width="220"/>
+<img src="app/static/screenshots/13.png" alt="Screenshot 13" width="220"/>
+<img src="app/static/screenshots/14.png" alt="Screenshot 14" width="220"/>
 
 </div>

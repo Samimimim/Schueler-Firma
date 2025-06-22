@@ -3,6 +3,9 @@ import sqlite3
 import datetime
 from contextlib import contextmanager
 from app import send  
+import io
+import xlsxwriter
+from flask import send_file
 
 DB_PATH = "./db/schüler-firma.db"
 critical_quantity = 5  # Kritische Menge für Warnung
@@ -192,6 +195,37 @@ def get_todays_sales():
         """, (today,))
         rows = [dict(row) for row in cursor.fetchall()]
         return jsonify(rows)
+    
+def serve_db_as_xlsx():
+
+    output = io.BytesIO()
+    workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+        tables = [row[0] for row in cursor.fetchall()]
+
+        for table in tables:
+            worksheet = workbook.add_worksheet(table)
+            cursor.execute(f"PRAGMA table_info({table})")
+            columns = [col[1] for col in cursor.fetchall()]
+            for col_idx, col_name in enumerate(columns):
+                worksheet.write(0, col_idx, col_name)
+            cursor.execute(f"SELECT * FROM {table}")
+            for row_idx, row in enumerate(cursor.fetchall(), start=1):
+                for col_idx, value in enumerate(row):
+                    worksheet.write(row_idx, col_idx, value)
+
+    workbook.close()
+    output.seek(0)
+    return send_file(
+        output,
+        download_name="schueler_firma_db.xlsx",
+        as_attachment=True,
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    
 
 def get_quantity(produkt):
     with get_db() as conn:
