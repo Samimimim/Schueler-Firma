@@ -23,22 +23,22 @@ else:
 # Create settings.json config file
 config ={
     "backend": {
-        "admin_password": "passwort",
-        "secret_key": "Trallalero Trallala"
+        "admin_password": "[PASSWORD]",
+        "secret_key": "[SECRET_KEY]"
     },
     "email_recivers": [
         [
-            "Samael",
-            "samael.schlecht@messelbergschule.de"
+            "RECIPIENT1_NAME",
+            "RECIPIENT2_EMAIL"
         ],
         [
-            "Samael",
-            "samaelschlecht@icloud.com"
+            "[RECIPIENT2_NAME]",
+            "[RECIPIENT2_EMAIL]"
         ]
     ],
     "email_sender": {
-        "password": "dont_you_dare_hack_me",
-        "username": "samaelschlecht@icloud.com"
+        "password": "[YOUR_PASSWORD]",
+        "username": "[YOUR_EMAIL]"
     },
     "settings": {
         "display": {
