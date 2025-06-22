@@ -11,11 +11,44 @@
         let pass = prompt("Bitte gib das Passwort ein");
         window.location.replace("/login?auth=" + pass);
       }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch("/api/fiveItems")
+          .then((response) => response.json())
+          .then((produkte) => {
+            const tabelle = document.getElementById("produkte-tabelle");
+
+            produkte.forEach((produkt) => {
+              const tr = document.createElement("tr");
+
+              const tdName = document.createElement("td");
+              tdName.textContent = produkt.name;
+              tr.appendChild(tdName);
+
+              const tdPreis = document.createElement("td");
+              tdPreis.textContent = produkt.preis + " €";
+              tr.appendChild(tdPreis);
+
+              const tdStueck = document.createElement("td");
+              tdStueck.textContent = produkt.stueckzahl;
+              tr.appendChild(tdStueck);
+
+              if (produkt.stueckzahl <= 0) {
+                tr.style.opacity = 0.5;
+              }
+
+              tabelle.appendChild(tr);
+            });
+          })
+          .catch((error) => {
+            console.error("Fehler beim Laden der Produkte:", error);
+          });
+      });
     </script>
   </head>
   <body>
-    <h1>%%%%%%%%%%%%%%%%%%%%</h1>
-    <div>/§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§/</div>
+    <h1>Schüler-Firma</h1>
+    <div>Willkommen bei unserer Schüler-Firma!</div>
     <br />
     <div id="tables-container">
       <div style="display: flex; gap: 30px; flex-wrap: wrap">
@@ -52,28 +85,18 @@
 
         <!-- Preise -->
         <div style="flex: 1; min-width: 300px">
-          <h2>Preise</h2>
+          <h2>Produkte</h2>
           <table>
-            <tr>
-              <th>Produkte</th>
-              <th>Preis</th>
-            </tr>
-            <tr>
-              <td>Flyer</td>
-              <td>10 €</td>
-            </tr>
-            <tr>
-              <td>Buch</td>
-              <td>50 €</td>
-            </tr>
-            <tr>
-              <td>Stift</td>
-              <td>15 €</td>
-            </tr>
-            <tr>
-              <td>Radiergummi</td>
-              <td>ab 0,10 €/Seite</td>
-            </tr>
+            <thead>
+              <tr>
+                <th>Produkt</th>
+                <th>Preis</th>
+                <th>Lager</th>
+              </tr>
+            </thead>
+            <tbody id="produkte-tabelle">
+              <!-- Dynamisch gefüllt -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -82,8 +105,6 @@
     <button onclick="location.href='/impressum'" type="button">
       ℹ️ Impressum
     </button>
-    <button ondblclick="location.href='/login'" type="button">
-      🔒Admin Login
-    </button>
+    <button ondblclick="switch_to_admin()" type="button">🔒Admin Login</button>
   </body>
 </html>

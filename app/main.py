@@ -122,6 +122,16 @@ def get_database():
         return db_content
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/api/fiveItems')
+def get_five_items():
+    try:
+        items = db.five_items()
+        return jsonify(items)
+    except Exception as e:
+        return {"error": str(e)}, 500
+
+
 #--------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
