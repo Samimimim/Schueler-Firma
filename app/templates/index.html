@@ -7,11 +7,6 @@
     <link rel="stylesheet" href="/static/style/style.css" />
     <link rel="icon" href="/static/img/favicon.png" type="image/png" />
     <script>
-      function switch_to_admin() {
-        let pass = prompt("Bitte gib das Passwort ein");
-        window.location.replace("/login?auth=" + pass);
-      }
-
       document.addEventListener("DOMContentLoaded", () => {
         fetch("/api/fiveItems")
           .then((response) => response.json())
@@ -105,6 +100,8 @@
     <button onclick="location.href='/impressum'" type="button">
       ℹ️ Impressum
     </button>
-    <button ondblclick="switch_to_admin()" type="button">🔒Admin Login</button>
+    <button ondblclick="location.href='/login'" type="button">
+      🔒Admin Login
+    </button>
   </body>
 </html>
