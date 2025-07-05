@@ -2,7 +2,7 @@ import smtplib
 from email.message import EmailMessage
 from app import settings
 
-message =  """Hallo {name},
+message = """Hallo {name},
 
 das Produkt "{produkt}" hat ein Problem gemeldet,  
 vermutlich handelt es sich um einen geringen Lagerbestand.  
@@ -15,7 +15,6 @@ Dein Lagerverwaltungssystem
 settings = settings.get_settings()
 email_sender = settings["email_sender"]
 email_recivers = settings["email_recivers"]
-
 
 
 def warn(produkt):

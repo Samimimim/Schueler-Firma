@@ -2,7 +2,7 @@ from flask import jsonify
 import sqlite3
 import datetime
 from contextlib import contextmanager
-from app import send  
+from app import send
 import io
 import xlsxwriter
 from flask import send_file
@@ -10,6 +10,7 @@ import random
 
 DB_PATH = "./db/schüler-firma.db"
 critical_quantity = 5  # Kritische Menge für Warnung
+
 
 @contextmanager
 def get_db():
@@ -19,6 +20,7 @@ def get_db():
         yield conn
     finally:
         conn.close()
+
 
 def get_tables():
     with get_db() as conn:
@@ -34,7 +36,8 @@ def get_tables():
             try:
                 if table == "verkaeufe":
                     # JOINs für verkaeufe
-                    cur.execute("""
+                    cur.execute(
+                        """
                 SELECT 
                     v.id, v.anzahl, v.preisPerPiece, v.date, v.description,
                     i.name AS objekt_name,
@@ -44,14 +47,15 @@ def get_tables():
                 LEFT JOIN inventar i ON v.objekt_id = i.id
                 LEFT JOIN verkaeufer s1 ON v.seller1_id = s1.id
                 LEFT JOIN verkaeufer s2 ON v.seller2_id = s2.id
-            """)
+            """
+                    )
 
                     rows = [dict(row) for row in cur.fetchall()]
                 else:
                     # Normale Tabelle auslesen
                     cur.execute(f"SELECT * FROM {table}")
                     rows = [dict(row) for row in cur.fetchall()]
-                
+
                 all_data[table] = rows
             except Exception as e:
                 all_data[table] = f"Fehler beim Abrufen: {str(e)}"
@@ -60,13 +64,13 @@ def get_tables():
 
 
 def add_produkt(data):
-    name = data.get('name')
-    stueckzahl = data.get('stueckzahl')
-    beschreibung = data.get('beschreibung', '')
-    preis = data.get('preis')
+    name = data.get("name")
+    stueckzahl = data.get("stueckzahl")
+    beschreibung = data.get("beschreibung", "")
+    preis = data.get("preis")
 
-    if not name or not isinstance(stueckzahl, int) :
-        return jsonify({'error': 'Ungültige Eingabedaten'}), 400
+    if not name or not isinstance(stueckzahl, int):
+        return jsonify({"error": "Ungültige Eingabedaten"}), 400
 
     try:
         with get_db() as conn:
@@ -77,53 +81,77 @@ def add_produkt(data):
                 neue_stueckzahl = result[0] + stueckzahl
                 cursor.execute(
                     "UPDATE inventar SET stueckzahl = ? WHERE name = ?",
-                    (neue_stueckzahl, name)
+                    (neue_stueckzahl, name),
                 )
             else:
                 cursor.execute(
                     "INSERT INTO inventar (name, stueckzahl, beschreibung, preis) VALUES (?, ?, ?, ?)",
-                    (name, stueckzahl, beschreibung, preis)
+                    (name, stueckzahl, beschreibung, preis),
                 )
             conn.commit()
-        return jsonify({'success': True}), 201
+        return jsonify({"success": True}), 201
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
+
 
 def check_seller(cursor, seller_id, label):
     if seller_id is not None:
         cursor.execute("SELECT 1 FROM verkaeufer WHERE id = ?", (seller_id,))
         if not cursor.fetchone():
-            raise ValueError(f'{label} mit ID {seller_id} nicht gefunden')
+            raise ValueError(f"{label} mit ID {seller_id} nicht gefunden")
     return seller_id
 
+
 def add_transaktion(data):
-    input_objekt = data.get('objekt_name')
-    anzahl = data.get('anzahl')
-    preis_pro_stueck = data.get('preis_pro_stueck')
-    datum = data.get('datum') or datetime.date.today().isoformat()
-    beschreibung = data.get('beschreibung', '')
-    seller1_id = data.get('seller1_id')
-    seller2_id = data.get('seller2_id')
+    input_objekt = data.get("objekt_name")
+    anzahl = data.get("anzahl")
+    preis_pro_stueck = data.get("preis_pro_stueck")
+    datum = data.get("datum") or datetime.date.today().isoformat()
+    beschreibung = data.get("beschreibung", "")
+    seller1_id = data.get("seller1_id")
+    seller2_id = data.get("seller2_id")
 
     if not input_objekt or not isinstance(anzahl, int):
-        return jsonify({'error': 'Ungültige Eingabedaten'}), 400
+        return jsonify({"error": "Ungültige Eingabedaten"}), 400
 
     try:
         with get_db() as conn:
             cursor = conn.cursor()
             # Objekt-ID und Preis ermitteln
-            if isinstance(input_objekt, int) or (isinstance(input_objekt, str) and str(input_objekt).isdigit()):
+            if isinstance(input_objekt, int) or (
+                isinstance(input_objekt, str) and str(input_objekt).isdigit()
+            ):
                 objekt_id = int(input_objekt)
-                cursor.execute("SELECT preis, stueckzahl, name FROM inventar WHERE id = ?", (objekt_id,))
+                cursor.execute(
+                    "SELECT preis, stueckzahl, name FROM inventar WHERE id = ?",
+                    (objekt_id,),
+                )
                 row = cursor.fetchone()
                 if not row:
-                    return jsonify({'error': f'Kein Inventar-Eintrag mit ID {objekt_id} gefunden'}), 400
+                    return (
+                        jsonify(
+                            {
+                                "error": f"Kein Inventar-Eintrag mit ID {objekt_id} gefunden"
+                            }
+                        ),
+                        400,
+                    )
                 db_preis, aktuelle_stueckzahl, produkt_name = row
             else:
-                cursor.execute("SELECT id, preis, stueckzahl, name FROM inventar WHERE name = ?", (input_objekt,))
+                cursor.execute(
+                    "SELECT id, preis, stueckzahl, name FROM inventar WHERE name = ?",
+                    (input_objekt,),
+                )
                 row = cursor.fetchone()
                 if not row:
-                    return jsonify({'error': f'Kein Inventar-Eintrag mit Name \"{input_objekt}\" gefunden'}), 400
+                    return (
+                        jsonify(
+                            {
+                                "error": f'Kein Inventar-Eintrag mit Name "{input_objekt}" gefunden'
+                            }
+                        ),
+                        400,
+                    )
                 objekt_id, db_preis, aktuelle_stueckzahl, produkt_name = row
 
             if not preis_pro_stueck:
@@ -134,22 +162,33 @@ def add_transaktion(data):
                 seller1_id = check_seller(cursor, seller1_id, "Seller1")
                 seller2_id = check_seller(cursor, seller2_id, "Seller2")
             except ValueError as ve:
-                return jsonify({'error': str(ve)}), 400
+                return jsonify({"error": str(ve)}), 400
 
             # Stückzahl updaten
             if aktuelle_stueckzahl is None or aktuelle_stueckzahl < anzahl:
-                return jsonify({'error': 'Nicht genügend Stück auf Lager'}), 400
+                return jsonify({"error": "Nicht genügend Stück auf Lager"}), 400
             neue_stueckzahl = aktuelle_stueckzahl - anzahl
             cursor.execute(
                 "UPDATE inventar SET stueckzahl = ? WHERE id = ?",
-                (neue_stueckzahl, objekt_id)
+                (neue_stueckzahl, objekt_id),
             )
 
             # Eintrag speichern
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO verkaeufe (objekt_id, anzahl, preisPerPiece, date, description, seller1_id, seller2_id)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (objekt_id, anzahl, preis_pro_stueck, datum, beschreibung, seller1_id, seller2_id))
+            """,
+                (
+                    objekt_id,
+                    anzahl,
+                    preis_pro_stueck,
+                    datum,
+                    beschreibung,
+                    seller1_id,
+                    seller2_id,
+                ),
+            )
             conn.commit()
 
             # Nach Verkauf: Prüfen ob Bestand kritisch und ggf. Mail senden
@@ -159,10 +198,11 @@ def add_transaktion(data):
             except Exception as e:
                 print(f"Fehler beim Senden der kritischen Bestandsmail: {e}")
 
-            return jsonify({'success': True, 'id': cursor.lastrowid}), 201
+            return jsonify({"success": True, "id": cursor.lastrowid}), 201
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
+
 
 def get_item(item_id=None, name=None):
     with get_db() as conn:
@@ -179,11 +219,13 @@ def get_item(item_id=None, name=None):
             return jsonify(dict(item))
         return jsonify({"error": "Item nicht gefunden"}), 404
 
+
 def get_todays_sales():
     today = datetime.date.today().isoformat()
     with get_db() as conn:
         cursor = conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT v.id, v.anzahl, v.preisPerPiece, v.date, v.description,
                    i.name AS objekt_name,
                    s1.name AS seller1_name,
@@ -193,14 +235,17 @@ def get_todays_sales():
             LEFT JOIN verkaeufer s1 ON v.seller1_id = s1.id
             LEFT JOIN verkaeufer s2 ON v.seller2_id = s2.id
             WHERE date = ?
-        """, (today,))
+        """,
+            (today,),
+        )
         rows = [dict(row) for row in cursor.fetchall()]
         return jsonify(rows)
-    
+
+
 def serve_db_as_xlsx():
 
     output = io.BytesIO()
-    workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+    workbook = xlsxwriter.Workbook(output, {"in_memory": True})
 
     with get_db() as conn:
         cursor = conn.cursor()
@@ -224,21 +269,20 @@ def serve_db_as_xlsx():
         output,
         download_name="schueler_firma_db.xlsx",
         as_attachment=True,
-        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
-    
+
+
 def five_items():
     with get_db() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT name, preis, stueckzahl FROM inventar ORDER BY RANDOM() LIMIT 5")
+        cursor.execute(
+            "SELECT name, preis, stueckzahl FROM inventar ORDER BY RANDOM() LIMIT 5"
+        )
         eintraege = cursor.fetchall()
 
         return [
-            {
-                'name': row[0],
-                'preis': row[1],
-                'stueckzahl': row[2]
-            } for row in eintraege
+            {"name": row[0], "preis": row[1], "stueckzahl": row[2]} for row in eintraege
         ]
 
 
@@ -248,6 +292,7 @@ def get_quantity(produkt):
         cursor.execute("SELECT stueckzahl FROM inventar WHERE name = ?", (produkt,))
         row = cursor.fetchone()
         return row[0] if row else 0
+
 
 def check_critical_quantity(produkt):
     return get_quantity(produkt) <= critical_quantity
