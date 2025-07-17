@@ -1,0 +1,5 @@
+Version 1.0 (Commit 40)
+1. Beim Verkaufen kann man jetzt nichts Falsches mehr anwälen
+2.Gesuchte Items werden schöner dargestelt
+3.Die Hauptseite zeigt keinen Lagerbestand mehr anwälen
+4.Changelog wurde hinzugefügt

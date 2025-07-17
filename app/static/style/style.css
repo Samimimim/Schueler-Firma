@@ -233,6 +233,19 @@ input[type="button"]:active {
   font-family: inherit;
 }
 
+#popup select {
+  width: 100%;
+  margin: 8px 0 16px 0;
+  padding: 10px 12px;
+  border: 1.5px solid #4aff00;
+  border-radius: 7px;
+  font-size: 1em;
+  background: #26331f;
+  color: #a4ff6b;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
 #popup textarea {
   min-height: 60px;
   max-height: 180px;
@@ -333,4 +346,8 @@ input[type="button"]:active {
   font-size: 1.1em;
   margin-bottom: 18px;
   text-shadow: 0 0 6px #ff4a4a;
+}
+
+.black{
+  color: black !important;
 }

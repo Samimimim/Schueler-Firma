@@ -47,13 +47,6 @@
               tdPreis.textContent = produkt.preis + " €";
               tr.appendChild(tdPreis);
 
-              const tdStueck = document.createElement("td");
-              tdStueck.textContent = produkt.stueckzahl;
-              tr.appendChild(tdStueck);
-
-              if (produkt.stueckzahl <= 0) {
-                tr.style.opacity = 0.5;
-              }
 
               tabelle.appendChild(tr);
             });
@@ -109,7 +102,6 @@
               <tr>
                 <th>Produkt</th>
                 <th>Preis</th>
-                <th>Lager</th>
               </tr>
             </thead>
             <tbody id="produkte-tabelle">

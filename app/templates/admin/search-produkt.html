@@ -48,7 +48,7 @@
       <input type="text" id="name" placeholder="Name" />
       <button onclick="submitSuche()">Suchen</button>
       <button onclick="closePopup()">Abbrechen</button>
-      <pre id="result"></pre>
+      <div id="result"></div>
       <p id="status"></p>
     </div>
 
@@ -60,8 +60,21 @@
       function closePopup() {
         document.getElementById("popup").style.display = "none";
         document.getElementById("overlay").style.display = "none";
-        document.getElementById("result").textContent = "";
+        document.getElementById("result").innerHTML = "";
         document.getElementById("status").textContent = "";
+      }
+
+      function renderProdukt(data) {
+        if (!data) return "";
+        return `
+          <div class="produkt-card">
+            <div class="black"><strong>ID:</strong> ${data.id}</div>
+            <div class="black"><strong>Name:</strong> ${data.name}</div>
+            <div class="black"><strong>Beschreibung:</strong> ${data.beschreibung}</div>
+            <div class="black"><strong>Preis:</strong> ${data.preis} €</div>
+            <div class="black"><strong>Stückzahl:</strong> ${data.stueckzahl}</div>
+          </div>
+        `;
       }
 
       async function submitSuche() {
@@ -79,14 +92,11 @@
 
         if (res.ok) {
           const json = await res.json();
-          document.getElementById("result").textContent = JSON.stringify(
-            json,
-            null,
-            2
-          );
+          document.getElementById("result").innerHTML = renderProdukt(json);
           document.getElementById("status").textContent = "Gefunden!";
         } else {
           const err = await res.json();
+          document.getElementById("result").innerHTML = "";
           document.getElementById("status").textContent =
             "Fehler: " + err.error;
         }
@@ -120,6 +130,20 @@
         display: block;
         margin: 8px 0;
         width: 100%;
+      }
+      .produkt-card {
+        background: #f4f4f4;
+        border-radius: 6px;
+        padding: 12px 16px;
+        margin-top: 12px;
+        box-shadow: 0 2px 8px #0001;
+        font-size: 1rem;
+      }
+      .produkt-card div {
+        margin-bottom: 4px;
+      }
+      .produkt-card strong {
+        color: #333;
       }
       pre {
         background: #eee;

@@ -277,14 +277,20 @@ def five_items():
     with get_db() as conn:
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT name, preis, stueckzahl FROM inventar ORDER BY RANDOM() LIMIT 5"
+            "SELECT name, preis FROM inventar ORDER BY RANDOM() LIMIT 5"
         )
         eintraege = cursor.fetchall()
 
         return [
-            {"name": row[0], "preis": row[1], "stueckzahl": row[2]} for row in eintraege
+            {"name": row[0], "preis": row[1]} for row in eintraege
         ]
 
+def all_items():
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT name FROM inventar")
+        eintraege = cursor.fetchall()
+        return [row[0] for row in eintraege]
 
 def get_quantity(produkt):
     with get_db() as conn:

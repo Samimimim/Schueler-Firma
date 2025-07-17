@@ -150,6 +150,13 @@ def get_five_items():
     except Exception as e:
         return {"error": str(e)}, 500
 
+@app.route("/api/allItems")
+def get_all_items():
+    try:
+        items = db.all_items()
+        return jsonify(items)
+    except Exception as e:
+        return {"error": str(e)}, 500
 
 # --------------
 @app.route("/login", methods=["GET", "POST"])

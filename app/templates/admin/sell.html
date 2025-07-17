@@ -68,12 +68,11 @@
       "
     >
       <h3>Neue Transaktion</h3>
-      <input
-        type="text"
-        id="objekt_name"
-        placeholder="Objektname"
-        required
-      /><br /><br />
+      <select id="objekt_name" required>
+  <option value="" disabled selected>Objekt wählen</option>
+</select>
+
+      <br /><br />
       <input
         type="number"
         id="anzahl"
@@ -101,7 +100,6 @@
       /><br /><br />
       <button onclick="submitTransaktion()">Hinzufügen</button>
       <button onclick="closePopup()">Abbrechen</button>
-      <p id="status"></p>
     </div>
     <h2>Heutige Verkäufe</h2>
     <table id="data-table">
@@ -149,7 +147,20 @@
           document.getElementById("error").textContent = error.message;
         });
 
-      function openPopup() {
+      async function openPopup() {
+        const response = await fetch("/api/allItems");
+        const availableItems = await response.json();
+
+        const select = document.getElementById("objekt_name");
+        select.innerHTML = '<option value="" disabled selected>Objekt wählen</option>';
+
+        availableItems.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item;
+        option.textContent = item;
+        select.appendChild(option);
+        });
+
         document.getElementById("popup").style.display = "block";
         document.getElementById("overlay").style.display = "block";
       }
@@ -157,19 +168,20 @@
       function closePopup() {
         document.getElementById("popup").style.display = "none";
         document.getElementById("overlay").style.display = "none";
-        document.getElementById("status").textContent = "";
       }
 
       async function submitTransaktion() {
         const objekt_name = document.getElementById("objekt_name").value;
-        const anzahl = parseInt(document.getElementById("anzahl").value);
+        const anzahl_raw = parseInt(document.getElementById("anzahl").value);
         const preis_pro_stueck =
           parseFloat(document.getElementById("preis_pro_stueck").value) || 0;
         const datum = document.getElementById("datum").value;
         const beschreibung = document.getElementById("beschreibung").value;
         const seller1_id_raw = document.getElementById("seller1_id").value;
         const seller2_id_raw = document.getElementById("seller2_id").value;
-
+        //Standart Anzahl 1
+        const anzahl = 
+          anzahl_raw > 0 ? anzahl_raw : 1;
         // seller-IDs: null wenn leer
         const seller1_id =
           seller1_id_raw === "" ? null : parseInt(seller1_id_raw);
@@ -193,19 +205,14 @@
 
           const data = await res.json();
           if (!res.ok) {
-            document.getElementById("status").textContent =
-              "Fehler: " + data.error;
             alert("Fehler: " + data.error);
           } else {
-            document.getElementById("status").textContent =
-              "Transaktion erstellt mit ID: " + data.id;
-            alert("Transaktion erstellt mit ID: " + data.id);
             closePopup();
           }
         } catch (err) {
-          document.getElementById("status").textContent = "Netzwerkfehler";
-          alert("Netzwerkfehler");
+          alert("Netzwerkfehler"+ err);
         }
+        // window.location.reload();
       }
     </script>
 
