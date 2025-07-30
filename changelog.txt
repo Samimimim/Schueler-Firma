@@ -3,3 +3,6 @@ Version 1.0 (Commit 40)
 2.Gesuchte Items werden schöner dargestelt
 3.Die Hauptseite zeigt keinen Lagerbestand mehr anwälen
 4.Changelog wurde hinzugefügt
+--------------------
+Version 2.0 (Commit ?)
+1.Tasks.json wurdu hinzugefügt um mir das Leben leichter zu machen

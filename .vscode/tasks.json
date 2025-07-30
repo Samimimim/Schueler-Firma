@@ -1,0 +1,18 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Projekt ausführen",
+      "type": "shell",
+      "command": "python run.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always"  // zeigt immer das Terminal
+      }
+    }
+  ]
+}
