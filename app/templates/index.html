@@ -58,66 +58,54 @@
     </script>
   </head>
   <body>
-    <h1>Schüler-Firma</h1>
-    <div>Willkommen bei unserer Schüler-Firma!</div>
+    <h1 class="center">Schüler-Firma</h1>
+    <div class="center">Willkommen bei unserer Schüler-Firma!</div>
     <br />
-    <div id="tables-container">
-      <div style="display: flex; gap: 30px; flex-wrap: wrap">
-        <!-- Öffnungszeiten -->
-        <div style="flex: 1; min-width: 300px">
-          <h2>Öffnungszeiten</h2>
-          <table>
+    <div class="table-container">
+      <!-- Produkte -->
+      <div class="table-box">
+        <h2>Produkte</h2>
+        <table class="runde-tabelle">
+          <thead>
             <tr>
-              <th>Tag</th>
-              <th>Uhrzeit</th>
+              <th>Produkt</th>
+              <th>Preis</th>
             </tr>
-            <tr>
-              <td>Montag</td>
-              <td>08:00 – 16:00</td>
-            </tr>
-            <tr>
-              <td>Dienstag</td>
-              <td>08:00 – 16:00</td>
-            </tr>
-            <tr>
-              <td>Mittwoch</td>
-              <td>08:00 – 14:00</td>
-            </tr>
-            <tr>
-              <td>Donnerstag</td>
-              <td>08:00 – 16:00</td>
-            </tr>
-            <tr>
-              <td>Freitag</td>
-              <td>08:00 – 12:00</td>
-            </tr>
-          </table>
-        </div>
-
-        <!-- Preise -->
-        <div style="flex: 1; min-width: 300px">
-          <h2>Produkte</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Produkt</th>
-                <th>Preis</th>
-              </tr>
-            </thead>
-            <tbody id="produkte-tabelle">
-              <!-- Dynamisch gefüllt -->
-            </tbody>
-          </table>
-        </div>
+          </thead>
+          <tbody id="produkte-tabelle">
+            <tr><td>Apfel</td><td>1,00 €</td></tr>
+            <tr><td>Brot</td><td>2,50 €</td></tr>
+          </tbody>
+        </table>
       </div>
-    </div>
+      <!-- Öffnungszeiten -->
+      <div class="table-box">
+        <h2>Öffnungszeiten</h2>
+        <table class="runde-tabelle">
+          <thead>
+            <tr><th>Tag</th><th>Uhrzeit</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Montag</td><td>08:00 – 17:00</td></tr>
+            <tr><td>Dienstag</td><td>08:00 – 17:00</td></tr>
+            <tr><td>Mittwoch</td><td>08:00 – 17:00</td></tr>
+            <tr><td>Donnerstag</td><td>08:00 – 17:00</td></tr>
+            <tr><td>Freitag</td><td>08:00 – 16:00</td></tr>
+            <tr><td>Samstag</td><td>Geschlossen</td></tr>
+            <tr><td>Sonntag</td><td>Geschlossen</td></tr>
+          </tbody>
+        </table>
+      </div>
 
-    <button onclick="location.href='/impressum'" type="button">
+    </div>
+    <div class="center" style="padding: 30px; gap: 20px;">
+       <button  onclick="location.href='/impressum'" type="button">
       ℹ️ Impressum
-    </button>
-    <button ondblclick="location.href='/login'" type="button">
-      🔒Admin Login
-    </button>
+      </button>
+      <button ondblclick="location.href='/login'" type="button">
+        🔒Admin Login
+      </button>
+    </div>
 
     <script>
       if ("serviceWorker" in navigator) {

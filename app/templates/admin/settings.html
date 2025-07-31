@@ -32,81 +32,17 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <style>
-      .env-editor-container {
-        width: 700px;
-        margin: 60px auto 0 auto;
-        background: #181c13;
-        border: 3px solid #39ff14;
-        border-radius: 16px;
-        box-shadow: 0 0 32px #39ff1444, 0 0 0 8px #0f1a0b inset;
-        padding: 38px 32px 28px 32px;
-        font-family: "Fira Mono", monospace;
-        color: #39ff14;
-      }
-      .env-editor-container h2 {
-        text-align: center;
-        margin-bottom: 18px;
-        color: #39ff14;
-        text-shadow: 0 0 8px #39ff14;
-      }
-      .env-editor-container textarea {
-        width: 100%;
-        min-height: 300px;
-        background: #1e2417;
-        color: #39ff14;
-        border: 2px solid #39ff14;
-        border-radius: 8px;
-        font-size: 0.8em;
-        font-family: "Fira Mono", monospace;
-        padding: 14px;
-        margin-bottom: 18px;
-        box-shadow: 0 0 8px #39ff1444 inset;
-        outline: none;
-        resize: vertical;
-      }
-      .env-editor-container button {
-        width: 100%;
-        padding: 14px 0;
-        font-size: 1.2em;
-        font-family: "Fira Mono", monospace;
-        background: #181c13;
-        color: #39ff14;
-        border: 2.5px solid #39ff14;
-        border-radius: 10px;
-        cursor: pointer;
-        box-shadow: 0 0 16px #39ff1444;
-        transition: background 0.18s, color 0.18s, border-color 0.18s,
-          transform 0.18s;
-        text-shadow: 0 0 8px #39ff14;
-        letter-spacing: 2px;
-      }
-      .env-editor-container button:hover {
-        background: #39ff14;
-        color: #181c13;
-        border-color: #39ff14;
-        transform: translateY(-2px) scale(1.03);
-        box-shadow: 0 0 32px #39ff14;
-        text-shadow: none;
-      }
-      .env-editor-container .status {
-        margin-top: 14px;
-        text-align: center;
-        font-size: 1.1em;
-        min-height: 1.5em;
-      }
-    </style>
   </head>
-  <body>
+  <body class="center">
     <img
       src="/static/img/back.png"
       alt="Back"
       class="back-button"
       onclick="window.history.back()"
     />
-    <div class="env-editor-container">
+    <div class="container center distance">
       <h2>Einstellungen bearbeiten</h2>
-      <textarea id="env-content" spellcheck="false"></textarea>
+      <textarea id="settings" class="settings" spellcheck="false"></textarea>
       <button onclick="saveSettings()">Speichern</button>
       <div class="status" id="status"></div>
     </div>
@@ -118,7 +54,7 @@
           .then((data) => {
             if (data.content !== undefined) {
               // Objekt als JSON-String anzeigen
-              document.getElementById("env-content").value = JSON.stringify(
+              document.getElementById("settings").value = JSON.stringify(
                 data.content,
                 null,
                 2
@@ -136,7 +72,7 @@
 
       // Einstellungen speichern
       function saveSettings() {
-        const content = document.getElementById("env-content").value;
+        const content = document.getElementById("settings").value;
         let parsed;
         try {
           parsed = JSON.parse(content);

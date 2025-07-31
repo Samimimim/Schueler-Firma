@@ -29,13 +29,10 @@
     <link rel="stylesheet" href="/static/style/style.css" />
     <link rel="icon" href="/static/img/favicon.png" type="image/png" />
   </head>
-  <body>
-    <div class="login-container">
+  <body class="center">
+    <div class="container center">
       <h2>Admin Login</h2>
-      {% if error %}
-      <div class="error">{{ error }}</div>
-      {% endif %}
-      <form method="post" action="/login">
+      <form class="login" method="post" action="/login">
         <input
           type="password"
           name="password"

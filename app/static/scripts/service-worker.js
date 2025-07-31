@@ -7,17 +7,17 @@ const urlsToCache = [
   "/manifest.json",
   "/static/style/style.css",
   "/static/img/back.png",
-  // Admin-HTML-Seiten (nur Beispiel, ggf. anpassen)
   "/admin/dashboard",
   "/admin/sell",
   "/admin/tables",
   "/admin/new-product",
   "/admin/search-product",
   "/admin/settings",
-  // Fehlerseiten
   "/404.html",
   "/403.html",
-  // Weitere statische Assets nach Bedarf ergänzen
+  "app/static/img/favicon/apple-touch-icon.png",
+  "app/static/img/favicon/favicon-16x16.png",
+  "app/static/img/favicon/favicon-32x32.png"
 ];
 
 // Installations-Event: Cache anlegen

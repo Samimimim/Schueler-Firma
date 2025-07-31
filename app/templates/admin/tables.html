@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="/static/style/style.css" />
     <link rel="icon" href="/static/img/favicon.png" type="image/png" />
   </head>
-  <body>
+  <body class="center">
     <img
       src="/static/img/back.png"
       alt="Back"
@@ -48,6 +48,7 @@
           container.innerHTML = "";
           for (const [tableName, rows] of Object.entries(data)) {
             const tableEl = document.createElement("table");
+            tableEl.classList.add("runde-tabelle");
             const title = document.createElement("h2");
             title.textContent = tableName;
             container.appendChild(title);
@@ -79,7 +80,7 @@
           }
         })
         .catch((err) => {
-          document.getElementById("tables-container").textContent =
+          document.getElementById("table-container").textContent =
             "Fehler beim Laden der Daten.";
           console.error(err);
         });

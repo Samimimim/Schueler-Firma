@@ -3,7 +3,7 @@
   "short_name": "Schüler-Firma",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#4af626",
+  "theme_color": "#BCA88D",
   "icons": [
     {
       "src": "/static/img/favicon/android-chrome-192x192.png",

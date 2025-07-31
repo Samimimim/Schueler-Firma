@@ -1,0 +1,38 @@
+{
+  "HTML Template Schüler-Firma": {
+  "prefix": "-html",
+  "body": [
+    "<!DOCTYPE html>",
+    "<html lang=\"en\">",
+    "<head>",
+    "  <meta charset=\"UTF-8\" />",
+    "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />",
+    "",
+    "  <!-- Apple Favicon / Manifest -->",
+    "  <link rel=\"manifest\" href=\"/manifest.json\" />",
+    "  <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/static/img/favicon/apple-touch-icon.png\" />",
+    "  <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/static/img/favicon/favicon-32x32.png\" />",
+    "  <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"/static/img/favicon/favicon-16x16.png\" />",
+    "  <link rel=\"shortcut icon\" href=\"/static/img/favicon/favicon.ico\" />",
+    "",
+    "  <title>Schüler-Firma</title>",
+    "  <link rel=\"stylesheet\" href=\"/static/style/style.css\" />",
+    "</head>",
+    "<body class=\"center\">",
+    "  <h1>Header</h1>",
+    "  <img",
+    "    src=\"/static/img/back.png\"",
+    "    alt=\"Back\"",
+    "    class=\"back-button\"",
+    "    onclick=\"window.history.back()\"",
+    "  />",
+    "  <div class=\"container\">",
+    "    <!-- My content -->",
+    "    $0",
+    "  </div>",
+    "</body>",
+    "</html>"
+  ],
+  "description": "HTML-Template für Schüler-Firma-Projekt"
+}
+}

@@ -26,10 +26,9 @@
     <link rel="shortcut icon" href="/static/img/favicon/favicon.ico" />
 
     <title>Schüler-Firma</title>
-    <link rel="stylesheet" href="/static/style/style.css" />
-    <link rel="icon" href="/static/img/favicon.png" type="image/png" />
+      <link rel="stylesheet" href="/static/style/style.css" />
   </head>
-  <body>
+  <body class="center">
     <img
       src="/static/img/back.png"
       alt="Back"
@@ -42,7 +41,7 @@
 
     <div id="overlay"></div>
 
-    <div id="popup">
+    <div id="popup" class="center small-popup">
       <h3>Inventar abfragen</h3>
       <input type="number" id="id" placeholder="ID" />
       <input type="text" id="name" placeholder="Name" />
@@ -119,10 +118,11 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background: #fff;
-        padding: 20px;
-        border-radius: 8px;
+        padding: 32px;
+        border-radius: 12px;
         display: none;
-        min-width: 250px;
+        min-width: 200px;
+        max-width: 90vw;
       }
       #popup input,
       #popup button,

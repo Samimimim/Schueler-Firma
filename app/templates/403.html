@@ -29,9 +29,9 @@
     <link rel="stylesheet" href="/static/style/style.css" />
     <link rel="icon" href="/static/img/favicon.png" type="image/png" />
     <style>
-      body.pipboy-bg {
-        background: #101c11;
-        color: #39ff14;
+      body {
+        background: #BCA88D;
+        color: #3E3F29;
         font-family: "Courier New", Courier, monospace;
         margin: 0;
         min-height: 100vh;
@@ -41,42 +41,43 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        
         min-height: 100vh;
-        text-shadow: 0 0 8px #39ff14, 0 0 2px #39ff14;
+        text-shadow: 0 0 8px #3E3F29, 0 0 2px #3E3F29;
       }
       .pipboy-text {
         font-size: 1.5rem;
         margin-bottom: 24px;
+        margin-top: 24px;
         letter-spacing: 1px;
+        text-align: center;
       }
       .pipboy-btn {
         display: inline-block;
         padding: 12px 32px;
-        border: 2px solid #39ff14;
-        color: #39ff14;
+        border: 2px solid #3E3F29;
+        color: #3E3F29;
         background: transparent;
         text-decoration: none;
         font-size: 1.2rem;
         border-radius: 4px;
-        box-shadow: 0 0 8px #39ff14;
+        box-shadow: 0 0 8px #3E3F29;
         transition: background 0.2s, color 0.2s;
       }
       .pipboy-btn:hover {
-        background: #39ff14;
+        background: #FF894F;
         color: #101c11;
       }
     </style>
   </head>
-  <body class="pipboy-bg">
-    <div class="pipboy-container">
-      <img src="/static/img/403.png" />
-      <div class="pipboy-text">
-        <strong>Forbidden</strong><br />
-        Du hast für diese Seite keine Berechtigung, <br />
-        versuche dich erneut einzuloggen.
-      </div>
-      <a href="/" class="pipboy-btn">Go back to homepage</a>
-      <a href="/login" class="pipboy-btn" style="margin-top: 30px">Login</a>
+  <div class="pipboy-container">
+    <img src="/static/img/403.png" />
+    <div class="pipboy-text">
+      <strong>Forbidden</strong><br />
+      Du hast für diese Seite keine Berechtigung, <br />
+      versuche dich erneut einzuloggen.
     </div>
-  </body>
+    <a href="/" class="pipboy-btn">Go back to homepage</a>
+    <a href="/login" class="pipboy-btn" style="margin-top: 30px">Login</a>
+  </div>
 </html>

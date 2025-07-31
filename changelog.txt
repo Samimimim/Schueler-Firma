@@ -6,3 +6,7 @@ Version 1.0 (Commit 40)
 --------------------
 Version 2.0 (Commit ?)
 1.Tasks.json wurdu hinzugefügt um mir das Leben leichter zu machen
+2.Ich hab meine erstes Snippet erstellt um schneller neu HTML datein zu erstellen
+3.Das kmplette Font end wurde neu und fast zu hundert Prozent KI frei geschreiben
+4.Das Projekt bennützt jetzt scss
+4.Wärmer und angemeres Theme
