@@ -131,5 +131,6 @@ Schueler-Firma/
 <img src="app/static/screenshots/12.png" alt="Screenshot 12" width="220"/>
 <img src="app/static/screenshots/13.png" alt="Screenshot 13" width="220"/>
 <img src="app/static/screenshots/14.png" alt="Screenshot 14" width="220"/>
+<img src="app/static/screenshots/logo.png" alt="Logo" width="120"/>
 
 </div>
