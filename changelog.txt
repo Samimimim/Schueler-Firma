@@ -12,7 +12,8 @@ Version 2.0 (Commit ?)
 4.Wärmer und angemeres Theme
 ---------------------
 Verison 3.0 (Not finished)
+1."Hotchange" Einstelungen
 #planed Plaketten generator für die Produkte
 #planed QR Support um direkt den Online Lagerbestand abzurufen
-#planed Suche verbesser
-#planed "Hotchange" Einstelungen
+#planed Suche verbessern
+

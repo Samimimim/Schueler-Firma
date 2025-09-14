@@ -28,9 +28,8 @@ def admin_required(f):
 
 app = Flask(__name__)
 
-# Einstellungen laden
-backend = settings.get_settings()["backend"]
-app.secret_key = backend["secret_key"]
+
+app.secret_key = settings.get_setting(["backend","secret_key"])
 
 
 @app.errorhandler(404)
@@ -163,7 +162,7 @@ def get_all_items():
 def login():
     if request.method == "POST":
         password = request.form.get("password")
-        if password == backend["admin_password"]:
+        if password == settings.get_setting(["backend","admin_password"]):
             session["admin"] = True
             return redirect("/admin/dashboard")
         return render_template("403.html"), 403
