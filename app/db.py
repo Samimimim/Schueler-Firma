@@ -302,3 +302,19 @@ def get_quantity(produkt):
 
 def check_critical_quantity(produkt):
     return get_quantity(produkt) <= critical_quantity
+
+
+def get_item_json(item_id=None, name=None):
+    with get_db() as conn:
+        cursor = conn.cursor()
+        if item_id:
+            cursor.execute("SELECT * FROM inventar WHERE id = ?", (item_id,))
+        elif name:
+            cursor.execute("SELECT * FROM inventar WHERE name = ?", (name,))
+        else:
+            return jsonify({"error": "Bitte 'id' oder 'name' angeben."}), 400
+
+        item = cursor.fetchone()
+        if item:
+            return dict(item)
+        return {"error": "Item nicht gefunden"}

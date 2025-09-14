@@ -27,6 +27,19 @@
     <title>Schüler-Firma</title>
     <link rel="stylesheet" href="/static/style/style.css" />
     <link rel="icon" href="/static/img/favicon.png" type="image/png" />
+
+     <script>
+      function prepareIds() {
+        const fields = document.querySelectorAll('.id-field');
+        let ids = [];
+        fields.forEach(f => {
+          if(f.value) ids.push(Number(f.value));
+        });
+        if(ids.length > 16) ids = ids.slice(0,16);
+        // IDs als kommagetrennte Liste
+        document.getElementById('ids-field').value = ids.join(",");
+      }
+    </script>
   </head>
 
 
@@ -39,5 +52,31 @@
       onclick="window.history.back()"
     />
     <a href="/api/database">Datenbank herunterladen</a>
+
+    <form id="pdf-form" action="/download_etiquette" method="get" onsubmit="prepareIds()" class="center">
+    <p>Wähle bis zu 16 Produkt-IDs aus:</p>
+    <div id="id-inputs">
+      <!-- bis zu 16 Eingabefelder -->
+      <input type="number" class="id-field" placeholder="Produkt-ID 1" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 2" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 3" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 4" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 5" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 6" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 7" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 8" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 9" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 10" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 11" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 12" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 13" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 14" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 15" min="1" />
+      <input type="number" class="id-field" placeholder="Produkt-ID 16" min="1" />
+    </div>
+    <input type="hidden" name="ids" id="ids-field" />
+    <br/>
+    <button type="submit">Etiketten herunterladen</button>
+    </form>
   </body>
 </html>

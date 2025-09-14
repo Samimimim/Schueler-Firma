@@ -85,6 +85,7 @@ http://localhost:5000
 - Produkte suchen
 - Geschützter Admin-Bereich
 - Einstellungen direkt im Browser bearbeiten
+- Plaketten für die Produkte direkt über die App erstellen und ausdrucken
 
 ---
 
@@ -131,6 +132,7 @@ Schueler-Firma/
 <img src="app/static/screenshots/12.png" alt="Screenshot 12" width="220"/>
 <img src="app/static/screenshots/13.png" alt="Screenshot 13" width="220"/>
 <img src="app/static/screenshots/14.png" alt="Screenshot 14" width="220"/>
+<img src="app/static/screenshots/15.png" alt="Screenshot 14" width="220"/>
 <img src="app/static/screenshots/logo.png" alt="Logo" width="120"/>
 
 </div>

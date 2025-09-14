@@ -13,7 +13,7 @@ Version 2.0 (Commit ?)
 ---------------------
 Verison 3.0 (Not finished)
 1."Hotchange" Einstelungen
-#planed Plaketten generator für die Produkte
+2. Plaketten generator für die Produkte
 #planed QR Support um direkt den Online Lagerbestand abzurufen
 #planed Suche verbessern
 

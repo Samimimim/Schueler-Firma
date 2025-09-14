@@ -13,6 +13,9 @@ from app import settings
 import pathlib
 from app import db
 import os
+from app import print
+from flask import Flask, send_file
+
 
 
 # Admin Zugang
@@ -141,6 +144,28 @@ def get_database():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/download_etiquette")
+@admin_required
+def download_etiquette():
+    ids_param = request.args.get("ids", "")  # z.B. "1,6,2"
+    try:
+        produkts = [int(pid) for pid in ids_param.split(",") if pid.strip()]
+    except ValueError:
+        return "Ungültiger Parameter 'ids'. Beispiel: ?ids=1,6,2", 400
+
+    produkts = produkts[:16]  # max 16 IDs
+
+    if not produkts:
+        return "Keine Produkt-IDs angegeben", 400
+
+    pdf_buffer = print.generate_etiquette_pdf(produkts)
+    return send_file(
+        pdf_buffer,
+        as_attachment=True,
+        download_name="etiketten.pdf",
+        mimetype="application/pdf"
+    )
+
 @app.route("/api/fiveItems")
 def get_five_items():
     try:
@@ -167,6 +192,9 @@ def login():
             return redirect("/admin/dashboard")
         return render_template("403.html"), 403
     return render_template("login.html")
+
+
+
 
 
 # Logout
