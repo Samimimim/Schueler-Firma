@@ -1,3 +1,6 @@
 flask
 gunicorn
 xlsxwriter
+reportlab
+qrcode[pil]
+
