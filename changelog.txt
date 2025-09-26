@@ -16,4 +16,11 @@ Verison 3.0 (Not finished)
 2. Plaketten generator für die Produkte
 #planed QR Support um direkt den Online Lagerbestand abzurufen
 #planed Suche verbessern
-
+#planed Such Menü verschöner (größer)
+#planed Warenkorb Modus hinzufügen
+#planed Datenbank mit init.py erzeugen
+#planed Themes
+#planed Bessere Einstellungen
+#planed Blacklist für böse Wörter
+#planed Tool für die Bearbeitung der db
+#planed Preis anzeigen bevor das Produkt verkauft wird
