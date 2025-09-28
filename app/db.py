@@ -7,8 +7,9 @@ import io
 import xlsxwriter
 from flask import send_file
 import random
+from app import blacklist
 
-DB_PATH = "./db/schüler-firma.db"
+DB_PATH = "./db/database.db"
 critical_quantity = 5  # Kritische Menge für Warnung
 
 
@@ -71,6 +72,11 @@ def add_produkt(data):
 
     if not name or not isinstance(stueckzahl, int):
         return jsonify({"error": "Ungültige Eingabedaten"}), 400
+
+    #Check nach bösen Wörter
+
+    if any(word.lower() in name.lower() for word in blacklist.blacklist):
+        return jsonify({"error": "Produktname enthält unzulässige Wörter."}), 400
 
     try:
         with get_db() as conn:

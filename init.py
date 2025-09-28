@@ -2,6 +2,7 @@ import os
 import sys
 import subprocess
 import json
+import sqlite3
 
 # Create venv directory
 venv_dir = "venv"
@@ -54,4 +55,44 @@ os.makedirs(os.path.dirname(config_path), exist_ok=True)
 with open(config_path, "w") as f:
     json.dump(config, f, indent=4)
     print(f"Config file created at ./{config_path}")
+
+#Creating Database
+db_path = "./db/database.db"
+con = sqlite3.connect(db_path)
+
+cur = con.cursor()
+
+cur.executescript("""
+CREATE TABLE verkaeufer (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL
+);
+CREATE TABLE verkaeufe (
+    id INTEGER PRIMARY KEY,
+    objekt_id INTEGER,
+    anzahl INTEGER,
+    "preisPerPiece" REAL,
+    "date" TEXT,
+    "description" TEXT,
  
+    seller1_id INTEGER,
+    seller2_id INTEGER,
+    FOREIGN KEY (objekt_id) REFERENCES inventar(id),
+ 
+    FOREIGN KEY (seller1_id) REFERENCES verkaeufer(id),
+    FOREIGN KEY (seller2_id) REFERENCES verkaeufer(id)
+);
+CREATE TABLE inventar (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    stueckzahl INTEGER NOT NULL,
+    beschreibung TEXT
+, "preis" REAL);
+""")
+con.commit()
+con.close()
+print("""
+      -------------------------------------------------
+      | Database created at ./{db_path}|
+      -------------------------------------------------
+      """)
