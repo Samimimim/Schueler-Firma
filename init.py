@@ -57,7 +57,9 @@ with open(config_path, "w") as f:
     print(f"Config file created at ./{config_path}")
 
 #Creating Database
-db_path = "./db/database.db"
+db_path = "./db/database.db"     #Change both names !!!!!!!
+os.makedirs("db", exist_ok=True) #Change both names !!!!!!!
+
 con = sqlite3.connect(db_path)
 
 cur = con.cursor()
