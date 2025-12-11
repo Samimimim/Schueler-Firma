@@ -25,3 +25,4 @@ Verison 3.0 (Not finished)
 #planed Bessere Einstellungen
 #planed Tool für die Bearbeitung der db
 #planed Preis anzeigen bevor das Produkt verkauft wird
+#planed Zwei unterschiedliche Lager 
