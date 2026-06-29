@@ -1,10 +1,10 @@
-Version 1.0 (Commit 40)
+Version 1.0 (Commit 354d931)
 1. Beim Verkaufen kann man jetzt nichts Falsches mehr anwälen
 2.Gesuchte Items werden schöner dargestelt
 3.Die Hauptseite zeigt keinen Lagerbestand mehr anwälen
 4.Changelog wurde hinzugefügt
 --------------------
-Version 2.0 (Commit ?)
+Version 2.0 (Commit 57767b7)
 1.Tasks.json wurdu hinzugefügt um mir das Leben leichter zu machen
 2.Ich hab meine erstes Snippet erstellt um schneller neu HTML datein zu erstellen
 3.Das komplette Font end wurde neu und fast zu hundert Prozent KI frei geschreiben
@@ -16,13 +16,19 @@ Verison 3.0 (Not finished)
 2. Plaketten generator für die Produkte
 3. Blacklist für böse Wörter
 4. Datenbank mit init.py erzeugen
+5. Auto generate secret key at init
 
 #planed QR Support um direkt den Online Lagerbestand abzurufen
-#planed Suche verbessern
-#planed Such Menü verschöner (größer)
 #planed Warenkorb Modus hinzufügen
+#planed Preis anzeigen bevor das Produkt verkauft wird
+#planed Tool für die Bearbeitung der db
+#planed Zwei unterschiedliche Lager 
+#planed Oatuh with iserv
+#planed Email via iserv client
+
+
+
+
+maybe one day idk but actully no
 #planed Themes
 #planed Bessere Einstellungen
-#planed Tool für die Bearbeitung der db
-#planed Preis anzeigen bevor das Produkt verkauft wird
-#planed Zwei unterschiedliche Lager 

@@ -3,6 +3,7 @@ import sys
 import subprocess
 import json
 import sqlite3
+import secrets
 
 # Create venv directory
 venv_dir = "venv"
@@ -22,30 +23,17 @@ else:
     print(f"{requirements_file} not found, skipping requirements installation.")
 
 # Create settings.json config file
-config ={
+config = {
     "backend": {
-        "admin_password": "[PASSWORD]",
-        "secret_key": "[SECRET_KEY]"
+        "admin_password": "password",
+        "secret_key": secrets.token_urlsafe(32)
     },
     "email_recivers": [
-        [
-            "RECIPIENT1_NAME",
-            "RECIPIENT2_EMAIL"
-        ],
-        [
-            "[RECIPIENT2_NAME]",
-            "[RECIPIENT2_EMAIL]"
-        ]
+
     ],
     "email_sender": {
-        "password": "[YOUR_PASSWORD]",
-        "username": "[YOUR_EMAIL]"
-    },
-    "settings": {
-        "display": {
-            "fontSize": 14
-        },
-        "theme": "dark"
+        "password": "pleasseinsertpaswordhere",
+        "username": "schuelerfirma"
     },
     "version": "1"
 }
